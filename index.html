@@ -3,19 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body
+        {
+            background: #000000;
+        }
+        .imgbox {
+            display: grid;
+            height: 100%;
+        }
+        .center-fit {
+            max-width: 100%;
+            max-height: 100vh;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
 <audio id="music" src="https://s1.citrus3.com:8236/stream"></audio>
+<div class="imgbox">
+    <img onClick="play1()" class="center-fit" src="https://github.com/IanMcGarryWWU/TheHatch/blob/master/Hatch1.png?raw=true" alt="MidjourneyAIArtByMcGarry">
+</div>>
 
-<a id="Test" href="">BUTTON 1</a>
 <script>
+    const audio1 = document.getElementById("music");
+
+    const isPlaying = (audElem) => {
+        return !audElem.paused;
+    };
+
     function play1(){
-        const audio1 = document.getElementById("music");
-        audio1.play();
+        if (isPlaying(audio1)) {
+            audio1.pause();
+        } else
+        {
+            audio1.play()
+        }
     }
 
-    const atest = document.getElementById("Test");
-    atest.onclick = play1;
 </script>
 </body>
 </html>
