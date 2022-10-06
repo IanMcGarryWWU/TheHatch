@@ -42,7 +42,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 17799;
+            z-index: 20000;
         }
 
         .TextPlacer {
@@ -54,7 +54,70 @@
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            z-index: 17799;
+            z-index: 100;
+        }
+        .MenuPlacer {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 18000;
+        }
+
+        .GlassCard {
+            background: rgba( 255, 255, 255, 0.05 );
+            box-shadow: 0 0.125em 0.5em 0 rgba( 0, 0, 0, 0.37 );
+            backdrop-filter: blur(10.0px );
+            -webkit-backdrop-filter: blur(10.0px );
+            border-radius: 10px;
+            border: 1px solid rgba( 255, 255, 255, 0.18 );
+            color: white;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            visibility: visible;
+            height: 66vh;
+            width: 100vw;
+        }
+
+        .MenuPage {
+            width: 90%;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .RootMenu {
+            display: none;
+        }
+
+        .About {
+            display: none;
+        }
+
+        .DJPage {
+            display: none;
+            overflow-y: scroll;
+            justify-content: left;
+        }
+
+        .EventPage {
+            display: none;
+            flex-direction: column;
+            justify-content:  space-around;
+            align-content: center;
+            height: 100%;
+        }
+
+        .EventItem {
+            font-size: 2vh;
+            font-family: 'Anton', sans-serif;
         }
 
         .InfoText {
@@ -67,10 +130,64 @@
             opacity: 0;
             text-align: center;
             -webkit-text-stroke: 1px black;
+            visibility: hidden;
         }
 
         .padder {
-            height: 2.1cm;
+            height: 4.1cm;
+        }
+
+        .menuOption {
+            border-radius: 10px;
+            background: white;
+            color: black;
+            width: 80%;
+            height: 5vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2vh;
+            font-family: 'Anton', sans-serif;
+            cursor: pointer;
+        }
+
+        .DJContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .DJAbout {
+            border-radius: 10px;
+            background: white;
+            color: black;
+            width: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1vh;
+            font-family: 'Anton', sans-serif;
+            padding: 5px;
+        }
+
+        .DJPadder {
+            height: 10px;
+        }
+
+        .menubutton {
+            position:fixed;
+            top: 0.02vh;
+            cursor: pointer;
+            z-index: 20000;
+            display: none;
+        }
+
+        .BackArrow {
+            position: absolute;
+            left: 0.3vw;
+            top: 0.3vh;
+            cursor: pointer;
         }
 
         @-webkit-keyframes fadeinout {
@@ -85,35 +202,222 @@
 </head>
 <body>
 <audio id="music" src="https://s1.citrus3.com:8236/stream"></audio>
-<div class="ArrowPlacer">
+<div class="ArrowPlacer Overlay">
     <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="play1()" class="Arrow">
         <path id="playerSymbol" d="M 26.501617,0.25027746 C 0.39963167,13.683008 0.22246902,13.683008 0.22246902,13.683008 L 26.088237,26.334765 25.917948,13.877086 Z" fill="#FFFFFF" stroke="#FFFFFF"/>
     </svg>
+    <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="menu_clicked()" class="menubutton" id="ThreeLines" >
+        <path id="menu1" d="M 2.9102224,2.9102224 23.203125,2.9495498 23.281779,6.6856461 2.7135857,6.1743909 Z" fill="#FFFFFF" stroke="#FFFFFF"/>
+        <path id="menu2" d="M 3.1461863,11.48358 23.832362,11.798199 23.793035,15.61295 3.1855137,15.101695 Z" fill="#FFFFFF" stroke="#FFFFFF"/>
+        <path id="menu3" d="M 3.0675318,19.899629 2.870895,23.911017 c 0,0 21.315413,0.904528 21.236758,0.511255 -0.07865,-0.393273 -0.196636,-5.15188 -0.196636,-5.15188 z" fill="#FFFFFF" stroke="#FFFFFF"/>
+    </svg>
 </div>
-<div class="TextPlacer">
+<div class="TextPlacer Overlay">
     <div>
         <div class="padder"></div>
-        <div class="InfoText" id="NowPlaying"></div>
+        <div class="InfoText Overlay" id="NowPlaying"></div>
     </div>
     <div>
-        <div class="InfoText" id="NextShow">Live shows returning soon!</div>
+        <div class="InfoText Overlay" id="NextShow">Live shows returning soon!</div>
         <div class="padder"></div>
     </div>
 </div>
-<div class="imgbox" >
-    <img id="background" onClick="play1()" class="center-fit" src="https://github.com/IanMcGarryWWU/TheHatch/blob/master/Hatch1.png?raw=true" alt="MidjourneyAIArtByMcGarry">
+<div class="MenuPlacer">
+    <div class="GlassCard" id="glassMenu">
+        <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="play1()" class="BackArrow" id="BackArrowID">
+            <path id="BackArrow" d="M 14.118512,1.1798199 C 13.764566,1.4944386 0.55058262,8.4160486 1.1404926,8.6520127
+            1.7304025,8.8879766 14.826404,16.320842 14.826404,16.320842 c 0,0 -6.6856467,-6.6856461 -6.4496825,-6.6856461 0.2359638,0
+            16.7534425,1.8877121 16.7534425,1.8877121 V 5.3878442 c 0,0 -18.0119173,2.9102225 -17.7759531,2.7529131
+            C 7.5901747,7.983448 14.118512,1.1798199 14.118512,1.1798199 Z" fill="#FFFFFF" stroke="#FFFFFF"/>
+        </svg>
+        <div class="MenuPage RootMenu" id="MenuPageID">
+            <div class="menuOption" id="AboutButton"> <div>About</div> </div>
+            <div class="menuOption" id="DJListButton"> <div>Regular DJs </div> </div>
+            <div class="menuOption" id="UpcomingButton"> <div>Upcoming Shows </div> </div>
+        </div>
+        <div class="MenuPage About" id="AboutID">
+            <div class="menuOption" > <div id="AboutText"></div> </div>
+        </div>
+        <div class="MenuPage DJPage" id="DJList" >
+
+        </div>
+        <div class="EventPage" id="EventList">
+
+        </div>
+    </div>
+</div>
+<div class="imgbox" id="imgboxid">
+
 </div>>
 
+
 <script>
+
+    appdata = {
+        "djs": [
+            {
+                "name": "Martin Robinson",
+                "about": "Legendary DJ and producer",
+                "mixcloud_username": "Martin_Robinson",
+                "styles": "Tech House, Deep House, Minimal House, Drum & Bass"
+            },
+            {
+                "name": "Nayf",
+                "about": "Fuels the partys with his music and witticisms",
+                "mixcloud_username": "NathanNAYF",
+                "styles": "Tech House, Deep House, Minimal House, Drum & Bass"
+            },
+            {
+                "name": "McGarr",
+                "about": "Lover of music and art. Responsible for art on hatch webpage and flyers for saturday.",
+                "mixcloud_username": "mcgarr",
+                "styles": "Deep House, Dub Techno, Tech House, Melodic House, Tech House, Electronica"
+            },
+            {
+                "name": "Papadamour",
+                "about": "Ex Project Zero/Surreal (NZ) resident spinning global . Winner Reloop Mixtape Comp May 2022.",
+                "mixcloud_username": "Papadamour",
+                "styles": "House grooves, wonky disko, retro acid throwdowns and all kinds of oddities"
+            },
+            {
+                "name": "Si Macc",
+                "about": "An about thing here",
+                "mixcloud_username": "Si_Macc",
+                "styles": "Progressive grooves, blending the diversity of different genres to keep those legs moving all night"
+            },
+            {
+                "name": "Fonze",
+                "about": "An about thing here",
+                "mixcloud_username": "cjfonz",
+                "styles": "Tech House, Deep House, Minimal House, Drum & Bass"
+            }
+        ],
+        "about": "Here is where we put a bunch of information about the hatch",
+        "upcoming": [
+            {
+            "date": "8/10/2022",
+            "event_text": "Relaunch"
+            },
+            {
+                "date": "12/10/2022",
+                "event_text": "Midweek Distractions"
+            },
+            {
+                "date": "8/10/2022",
+                "event_text": "2nd Show"
+            },
+            {
+                "date": "12/10/2022",
+                "event_text": "Midweek Distractions"
+            },
+            {
+                "date": "8/10/2022",
+                "event_text": "3rd Show"
+            },
+            {
+                "date": "12/10/2022",
+                "event_text": "Midweek Distractions"
+            },
+            {
+                "date": "8/10/2022",
+                "event_text": "4th Show"
+            },
+            {
+                "date": "12/10/2022",
+                "event_text": "Midweek Distractions"
+            }
+        ]
+    }
+
+
     const audio1 = document.getElementById("music");
 
+    let menu_open = false
+    let overlay_show = true
+    let current_level = 0
 
+    function createIFrame(aname) {
+        let ifrm = document.createElement("iframe");
+        let URL = "https://www.mixcloud.com/widget/follow/?u=%2F" + aname + "%2F"
+        ifrm.setAttribute("src", URL);
+        ifrm.style.width = "300px";
+        ifrm.style.height = "250px";
+        return ifrm
+    }
+
+    function Add_Image() {
+        let img = document.createElement('img');
+        img.src =
+            "https://github.com/IanMcGarryWWU/TheHatch/blob/master/Hatch1.png?raw=true";
+        img.classList.add("center-fit")
+        img.onclick = play1
+        img.id = "background"
+        img.alt = "Midjourney AI Art by McGarr"
+        document.getElementById('imgboxid').appendChild(img);
+    }
+
+    // Load in text
+    document.getElementById("AboutText").innerHTML = appdata["about"]
+    djlist = document.getElementById("DJList")
+    appdata["djs"].forEach(adj => {
+        let adj_div = document.createElement("DIV")
+        adj_div.classList.add("DJContainer");
+        djlist.appendChild(adj_div)
+        let dj_frame = createIFrame(adj["mixcloud_username"])
+        adj_div.appendChild(dj_frame)
+        let apadder = document.createElement("DIV")
+        apadder.classList.add("DJPadder")
+        adj_div.appendChild(apadder)
+    })
+    eventlist = document.getElementById("EventList")
+    appdata["upcoming"].forEach(aEvent => {
+        let aEvent_div = document.createElement("DIV")
+        aEvent_div.classList.add("DJContainer");
+        eventlist.appendChild(aEvent_div)
+        let inner_event = document.createElement("DIV")
+        inner_event.classList.add("EventItem");
+        aEvent_div.appendChild(inner_event)
+        inner_event.innerText = aEvent["date"] + ' - ' + aEvent["event_text"]
+        let apadder = document.createElement("DIV")
+        apadder.classList.add("DJPadder")
+        aEvent_div.appendChild(apadder)
+    })
+
+    const observer = new MutationObserver(function() {
+
+    });
+
+    const target = document.getElementById('imgboxid');
+
+    // Set configuration object:
+    const config = { childList: true };
+
+    // Start the observer
+    observer.observe(target, config);
+
+    let myinterval = setInterval(function () {
+        if (document.getElementById('background').offsetWidth > 0) {
+            console.log("The new div was just appended!");
+            let background_width = document.getElementById("background").offsetWidth;
+            if (background_width > window.innerWidth) {
+                background_width = window.innerWidth
+            }
+            console.log("Background with = " + background_width)
+            document.getElementById("NowPlaying").style.width = background_width + "px";
+            document.getElementById("NextShow").style.width = background_width + "px";
+            document.getElementById("glassMenu").style.width = (background_width * 0.85) + "px";
+            document.getElementById("NowPlaying").style.visibility = "visible";
+            document.getElementById("NextShow").style.visibility = "visible";
+            console.log(window.innerWidth)
+            console.log(background_width)
+            console.log(((window.innerWidth / 2) - (background_width / 2)))
+            document.getElementById("ThreeLines").style.left = ((window.innerWidth / 2) - (background_width / 2)) + "px";
+            document.getElementById("ThreeLines").style.display = "block"
+            clearInterval(myinterval)
+        }}, 20);
 
     window.onload = function(){
-        let background_width = document.getElementById("background").offsetWidth;
-        console.log(background_width)
-        document.getElementById("NowPlaying").style.width = background_width + "px";
-        document.getElementById("NextShow").style.width = background_width + "px";
+        Add_Image()
     };
 
     let square = "M 24.186308,1.7697298 H 2.1236758 L 2.0450212,24.343617 24.186308,24.146981 Z"
@@ -124,6 +428,32 @@
         return !audElem.paused;
     };
 
+    document.getElementById("AboutButton").onclick = function() { showMenuPage("AboutID")}
+    document.getElementById("DJListButton").onclick= function() { showMenuPage("DJList")}
+    document.getElementById("UpcomingButton").onclick = function() { showMenuPage("EventList")}
+    document.getElementById("BackArrowID").onclick = function() {
+        if (current_level === 2) {
+            showMenuPage("MenuPageID")
+        } else
+         {
+            menu_clicked()
+        }
+    }
+
+    function switch_overlay() {
+        let collection = document.getElementsByClassName("Overlay");
+        overlay_show = !overlay_show
+        let visibility_text = ""
+        if (overlay_show) {
+            visibility_text = "visible"
+        } else {
+            visibility_text = "hidden"
+        }
+        [...collection].forEach((item) => {
+            item.style.visibility = visibility_text
+        })
+    }
+
     function play1(){
         if (isPlaying(audio1)) {
             audio1.pause();
@@ -133,6 +463,38 @@
             audio1.play()
             pSymbol.setAttribute("d", square)
         }
+    }
+
+    function showMenuPage(aPage) {
+        if (aPage) {
+            current_level = 2
+        }
+        if (aPage === "MenuPageID") {
+            current_level = 1
+        }
+        document.getElementById("MenuPageID").style.display = "none"
+        document.getElementById("AboutID").style.display = "none"
+        document.getElementById("DJList").style.display = "none"
+        document.getElementById("EventList").style.display = "none"
+        if (aPage) {
+            document.getElementById(aPage).style.display = "flex"
+        }
+    }
+
+    function menu_clicked(){
+        console.log("Menu Clicked")
+        switch_overlay()
+        if (menu_open) {
+            let gMenu = document.getElementById("glassMenu")
+            gMenu.style.display = "none"
+            current_level = 0
+        } else
+        {
+            let gMenu = document.getElementById("glassMenu")
+                gMenu.style.display = "flex"
+            showMenuPage("MenuPageID")
+        }
+        menu_open = !menu_open
     }
 
     const playerInfoURL = "https://s1.citrus3.com:2000/AudioPlayer/TheHatch/playerInfo"
