@@ -8,9 +8,15 @@
             margin: 0;
             padding: 0;
         }
+
         body
         {
             background: #000000;
+            overflow: hidden;
+        }
+
+        .djImage {
+
         }
 
         .imgbox {
@@ -21,8 +27,9 @@
         }
         .center-fit {
             max-width: 100%;
-            max-height: 100vh;
+            height: 100vh;
             margin: auto;
+            object-fit: cover;
         }
         .Arrow {
             cursor: pointer;
@@ -31,6 +38,7 @@
             animation-iteration-count: infinite;
             opacity: 0;
             transform: rotate(180deg);
+            visibility: hidden;
         }
 
         .ArrowPlacer {
@@ -56,6 +64,27 @@
             align-items: center;
             z-index: 100;
         }
+
+        .TheHatchPlacer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 40000;
+            left: 0;
+            top: 0;
+        }
+
+        .TheHatch {
+            color: white;
+            font-size: 10vw;
+            font-family: 'Anton', sans-serif;
+        }
+
         .MenuPlacer {
             position: absolute;
             width: 100vw;
@@ -107,6 +136,26 @@
             justify-content: left;
         }
 
+        .DJLink {
+            font-size: 3vh;
+            color: blue;
+            cursor: pointer;
+        }
+        .DJName {
+            font-size: 4vh;
+            font-family: 'Anton', sans-serif;
+        }
+
+        .DJAboutInfo {
+            font-size: 3vh;
+            font-family: 'Anton', sans-serif;
+        }
+
+        .DJStyles {
+            font-size: 2vh;
+            font-family: 'Anton', sans-serif;
+        }
+
         .EventPage {
             display: none;
             flex-direction: column;
@@ -120,6 +169,9 @@
             font-family: 'Anton', sans-serif;
         }
 
+        .AboutTextClass {
+            padding: 20px;
+        }
         .InfoText {
             color: white;
             font-size: 3vh;
@@ -134,7 +186,15 @@
         }
 
         .padder {
-            height: 4.1cm;
+            height: 5.1cm;
+        }
+
+        iframe {
+            width: 76.92% !important;
+            height: 76.92% !important;
+            transform: scale(1.3);
+            -webkit-transform-origin: 0 0;
+            transform-origin: 0 0;
         }
 
         .menuOption {
@@ -142,7 +202,7 @@
             background: white;
             color: black;
             width: 80%;
-            height: 5vh;
+            min-height: 5vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -156,6 +216,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            width: 100%;
         }
 
         .DJAbout {
@@ -172,7 +233,7 @@
         }
 
         .DJPadder {
-            height: 10px;
+            height: 4vh;
         }
 
         .menubutton {
@@ -202,8 +263,8 @@
 </head>
 <body>
 <audio id="music" src="https://s1.citrus3.com:8236/stream"></audio>
-<div class="ArrowPlacer Overlay">
-    <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="play1()" class="Arrow">
+<div class="ArrowPlacer Overlay" id="ArrowPlacerID">
+    <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="play1()" class="Arrow" id="ArrowID" class="Overlay">
         <path id="playerSymbol" d="M 26.501617,0.25027746 C 0.39963167,13.683008 0.22246902,13.683008 0.22246902,13.683008 L 26.088237,26.334765 25.917948,13.877086 Z" fill="#FFFFFF" stroke="#FFFFFF"/>
     </svg>
     <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="menu_clicked()" class="menubutton" id="ThreeLines" >
@@ -236,7 +297,7 @@
             <div class="menuOption" id="UpcomingButton"> <div>Upcoming Shows </div> </div>
         </div>
         <div class="MenuPage About" id="AboutID">
-            <div class="menuOption" > <div id="AboutText"></div> </div>
+            <div class="menuOption" > <div id="AboutText" class="AboutTextClass"></div> </div>
         </div>
         <div class="MenuPage DJPage" id="DJList" >
 
@@ -249,7 +310,11 @@
 <div class="imgbox" id="imgboxid">
 
 </div>>
-
+<div class="TheHatchPlacer" id="TheHatchPlacerID">
+    <div class="TheHatch">
+        THE HATCH
+    </div>
+</div>
 
 <script>
 
@@ -292,7 +357,9 @@
                 "styles": "Tech House, Deep House, Minimal House, Drum & Bass"
             }
         ],
-        "about": "Here is where we put a bunch of information about the hatch",
+        "about": "The Hatch was set up during the first lockdown of 2020 as a way for friends to stay connected whilst enjoying quality underground dance music. Although we mainly focus on all things House and Techno, we also regularly delve into other genres. \n" +
+            "<br /> <br />" +
+            "If you would like to get involved with the community by joining the chat group, or if you would like to contact us for any other reason, you can email us at thehatch.tech@gmail.com",
         "upcoming": [
             {
             "date": "8/10/2022",
@@ -336,6 +403,18 @@
     let overlay_show = true
     let current_level = 0
 
+    const playerInfoURL = "https://s1.citrus3.com:2000/AudioPlayer/TheHatch/playerInfo"
+
+    async function fetchAsync (url) {
+        let response = await fetch(url);
+        let apromise = await response.json();
+        return apromise;
+    }
+
+    fetchAsync(playerInfoURL).then(data => {
+        document.getElementById("NowPlaying").textContent = "Now Playing: " + data.nowplaying})
+
+
     function createIFrame(aname) {
         let ifrm = document.createElement("iframe");
         let URL = "https://www.mixcloud.com/widget/follow/?u=%2F" + aname + "%2F"
@@ -347,8 +426,17 @@
 
     function Add_Image() {
         let img = document.createElement('img');
-        img.src =
-            "https://github.com/IanMcGarryWWU/TheHatch/blob/master/Hatch1.png?raw=true";
+        let screenratio = window.innerWidth / window.innerHeight
+        if (screenratio > 1.15) {
+            img.src =
+                "https://github.com/IanMcGarryWWU/TheHatch/blob/master/16-9.png?raw=true";
+        } else if (screenratio < 0.85) {
+            img.src =
+                "https://github.com/IanMcGarryWWU/TheHatch/blob/master/9-16.png?raw=true";
+        } else {
+            img.src =
+                "https://github.com/IanMcGarryWWU/TheHatch/blob/master/1-1.png?raw=true"
+        }
         img.classList.add("center-fit")
         img.onclick = play1
         img.id = "background"
@@ -363,11 +451,38 @@
         let adj_div = document.createElement("DIV")
         adj_div.classList.add("DJContainer");
         djlist.appendChild(adj_div)
-        let dj_frame = createIFrame(adj["mixcloud_username"])
-        adj_div.appendChild(dj_frame)
-        let apadder = document.createElement("DIV")
-        apadder.classList.add("DJPadder")
-        adj_div.appendChild(apadder)
+        let mixcloudapi = "https://api.mixcloud.com/" + adj["mixcloud_username"] + "/"
+        fetchAsync(mixcloudapi).then(data => {
+            let img = document.createElement('img');
+            img.src =data.pictures.extra_large
+            img.classList.add("djImage")
+            // img.onclick =
+            img.id = "DjImage" + adj["mixcloud_username"]
+            img.alt = adj["mixcloud_username"]
+            adj_div.appendChild(img)
+            let DJName = document.createElement("DIV")
+            DJName.classList.add("DJName")
+            DJName.innerHTML = adj["name"]
+            adj_div.appendChild(DJName)
+            //let DJAbout = document.createElement("DIV")
+            //DJAbout.classList.add("DJAboutInfo")
+            //DJAbout.innerHTML = adj["about"]
+            //adj_div.appendChild(DJAbout)
+            let DJStyles = document.createElement("DIV")
+            DJStyles.classList.add("DJStyles")
+            DJStyles.innerHTML = adj["styles"]
+            adj_div.appendChild(DJStyles)
+            let a = document.createElement('a');
+            let linkText = document.createTextNode("Click Here For Mixcloud Profile");
+            a.appendChild(linkText);
+            a.title = "Mixcloud Profile";
+            a.href = "https://www.mixcloud.com/" + adj['mixcloud_username'] + "/";
+            a.classList.add("DJLink")
+            adj_div.appendChild(a);
+            let apadder = document.createElement("DIV")
+            apadder.classList.add("DJPadder")
+            adj_div.appendChild(apadder)})
+
     })
     eventlist = document.getElementById("EventList")
     appdata["upcoming"].forEach(aEvent => {
@@ -383,18 +498,6 @@
         aEvent_div.appendChild(apadder)
     })
 
-    const observer = new MutationObserver(function() {
-
-    });
-
-    const target = document.getElementById('imgboxid');
-
-    // Set configuration object:
-    const config = { childList: true };
-
-    // Start the observer
-    observer.observe(target, config);
-
     let myinterval = setInterval(function () {
         if (document.getElementById('background').offsetWidth > 0) {
             console.log("The new div was just appended!");
@@ -408,6 +511,8 @@
             document.getElementById("glassMenu").style.width = (background_width * 0.85) + "px";
             document.getElementById("NowPlaying").style.visibility = "visible";
             document.getElementById("NextShow").style.visibility = "visible";
+            document.getElementById("ArrowID").style.visibility = "visible";
+            document.getElementById("TheHatchPlacerID").style.display = "none"
             console.log(window.innerWidth)
             console.log(background_width)
             console.log(((window.innerWidth / 2) - (background_width / 2)))
@@ -452,6 +557,7 @@
         [...collection].forEach((item) => {
             item.style.visibility = visibility_text
         })
+        document.getElementById("ArrowID").style.visibility = visibility_text
     }
 
     function play1(){
@@ -497,16 +603,6 @@
         menu_open = !menu_open
     }
 
-    const playerInfoURL = "https://s1.citrus3.com:2000/AudioPlayer/TheHatch/playerInfo"
-
-    async function fetchAsync (url) {
-        let response = await fetch(url);
-        let apromise = await response.json();
-        return apromise;
-    }
-
-    fetchAsync(playerInfoURL).then(data => {
-        document.getElementById("NowPlaying").textContent = "Now Playing: " + data.nowplaying})
 
 
 </script>
