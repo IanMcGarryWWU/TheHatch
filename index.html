@@ -263,10 +263,45 @@
             50% { opacity: 0.7; }
         }
 
+        .Chatroom {
+            width: fit-content;
+            z-index: 200000000;
+            text-align: center;
+            color: cyan;
+            font-size: 3vh;
+            font-family: 'Anton', sans-serif;
+            -webkit-animation: fadeinout 10s ease-in-out ;
+            animation: fadeinout 10s ease-in-out ;
+            animation-iteration-count: infinite;
+            opacity: 0;
+            background-color: black;
+            cursor: pointer;
+        }
+
+        .ChatroomPlacer {
+            z-index: 200000000;
+            position: fixed;
+            width: 100%;
+            background: rgba(0, 0, 0, 0);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+
+        }
+
+
     </style>
 </head>
 <body>
+<div class="ChatroomPlacer">
+    <div class="Chatroom" id="ChatroomText">
+        Click Here For Chatroom
+    </div>
+</div>
+
 <audio id="music" src="https://s1.citrus3.com:8236/stream"></audio>
+
 <div class="ArrowPlacer Overlay" id="ArrowPlacerID">
     <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="play1()" class="Arrow" id="ArrowID" class="Overlay">
         <path id="playerSymbol" d="M 26.501617,0.25027746 C 0.39963167,13.683008 0.22246902,13.683008 0.22246902,13.683008 L 26.088237,26.334765 25.917948,13.877086 Z" fill="#FFFFFF" stroke="#FFFFFF"/>
@@ -277,17 +312,19 @@
         <path id="menu3" d="M 3.0675318,19.899629 2.870895,23.911017 c 0,0 21.315413,0.904528 21.236758,0.511255 -0.07865,-0.393273 -0.196636,-5.15188 -0.196636,-5.15188 z" fill="#FFFFFF" stroke="#FFFFFF"/>
     </svg>
 </div>
+
+
+
 <div class="TextPlacer Overlay">
+
     <div>
         <div class="padder"></div>
         <div class="InfoText Overlay" id="NowPlaying"></div>
     </div>
     <div>
-        <div class="InfoText Overlay" id="NextShow">Next live show 19th November 8:00pm - Nayf & Papadamour</div>
+        <div class="InfoText Overlay" id="NextShow">Next live show 19th November 9:00pm - Nayf & Papadamour</div>
         <div class="padder"></div>
     </div>
-
-
 </div>
 <div class="MenuPlacer">
     <div class="GlassCard" id="glassMenu">
@@ -440,6 +477,12 @@
         img.alt = "Midjourney AI Art by McGarr"
         document.getElementById('imgboxid').appendChild(img);
     }
+
+    function OpenChatroom() {
+        let URL = "https://organizations.minnit.chat/633661426848324/Main"
+        window.open(URL, '_blank');
+    }
+    document.getElementById("ChatroomText").onclick = OpenChatroom
 
     // Load in text
     document.getElementById("AboutText").innerHTML = appdata["about"]
