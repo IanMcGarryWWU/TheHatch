@@ -460,7 +460,7 @@
 
     let closestdays = 1000000
     let closestEventText = ""
-    let currentDate = Date.now()
+
 
     // Load upcoming shows from Google Sheets
     fetchAsync('https://sheetdb.io/api/v1/8dt5zpsbyfm3b').then(data => {
@@ -483,7 +483,9 @@
             }
             return 0;
         }
-
+        let d = new Date()
+        let currentDate = convertTextToDate(d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear())
+        console.log(currentDate)
         data.sort( compare );
 
         data.forEach(aEvent => {
