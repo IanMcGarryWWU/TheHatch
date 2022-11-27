@@ -370,6 +370,48 @@
 
 <script>
 
+    function Add_Image() {
+        let img = document.createElement('img');
+        document.getElementById('imgboxid').appendChild(img)
+        let first = true
+        img.onload = () => {
+            if (first) {
+                console.log("Image loaded")
+            }
+            first = false
+            let fadeinterval = setInterval(function () {
+                let current_opacity_text = document.getElementById("TheHatchPlacerID").style.opacity
+                let current_opacity = parseFloat(current_opacity_text)
+                current_opacity = current_opacity - 0.01
+                if (current_opacity <= 0 || (Date.now() - startTime) > 9000) {
+                    current_opacity = 0
+                    document.getElementById("TheHatchPlacerID").style.opacity = current_opacity.toString()
+                    clearInterval(fadeinterval)
+                } else {
+                    document.getElementById("TheHatchPlacerID").style.opacity = current_opacity.toString()
+                }
+            }, 20)
+
+        }
+        let screenratio = window.innerWidth / window.innerHeight
+        if (screenratio > 1.15) {
+            img.src =
+                "https://github.com/IanMcGarryWWU/TheHatch/blob/master/16-9.jpg?raw=true";
+        } else if (screenratio < 0.85) {
+            img.src =
+                "https://github.com/IanMcGarryWWU/TheHatch/blob/master/9-16.jpg?raw=true";
+        } else {
+            img.src =
+                "https://github.com/IanMcGarryWWU/TheHatch/blob/master/1-1.jpg?raw=true"
+        }
+        img.classList.add("center-fit")
+        img.onclick = play1
+        img.id = "background"
+        img.alt = "Midjourney AI Art by McGarr"
+    }
+
+    Add_Image()
+
     appdata = {
         "djs": [
             {
@@ -420,8 +462,8 @@
             "If you would like to get involved with the community by joining the chat group, or if you would like to contact us for any other reason, you can email us at thehatch.tech@gmail.com",
         "upcoming": [
             {
-            "date": "19/11/2022",
-            "event_text": "Nayf and Papadamour"
+                "date": "19/11/2022",
+                "event_text": "Nayf and Papadamour"
             },
             {
                 "date": "23/11/2022",
@@ -526,26 +568,6 @@
         return ifrm
     }
 
-    function Add_Image() {
-        let img = document.createElement('img');
-        let screenratio = window.innerWidth / window.innerHeight
-        if (screenratio > 1.15) {
-            img.src =
-                "https://github.com/IanMcGarryWWU/TheHatch/blob/master/16-9.jpg?raw=true";
-        } else if (screenratio < 0.85) {
-            img.src =
-                "https://github.com/IanMcGarryWWU/TheHatch/blob/master/9-16.jpg?raw=true";
-        } else {
-            img.src =
-                "https://github.com/IanMcGarryWWU/TheHatch/blob/master/1-1.jpg?raw=true"
-        }
-        img.classList.add("center-fit")
-        img.onclick = play1
-        img.id = "background"
-        img.alt = "Midjourney AI Art by McGarr"
-        document.getElementById('imgboxid').appendChild(img);
-    }
-
     function OpenChatroom() {
         let URL = "https://organizations.minnit.chat/633661426848324/Main"
         window.open(URL, '_blank');
@@ -603,26 +625,9 @@
     document.getElementById("NextShow").style.visibility = "visible";
     document.getElementById("ArrowID").style.visibility = "visible";
     // document.getElementById("TheHatchPlacerID").style.display = "none"
-    document.getElementById("TheHatchPlacerID").style.zIndex = "none"
+    // document.getElementById("TheHatchPlacerID").style.zIndex = "none"
     document.getElementById("ThreeLines").style.left = ((window.innerWidth / 2) - (window.innerWidth / 2)) + "px";
     document.getElementById("ThreeLines").style.display = "block"
-    let fadeinterval = setInterval(function () {
-        let current_opacity_text = document.getElementById("TheHatchPlacerID").style.opacity
-        let current_opacity = parseFloat(current_opacity_text)
-        current_opacity = current_opacity - 0.01
-        if (current_opacity <= 0 || (Date.now() - startTime) > 9000) {
-            current_opacity = 0
-            document.getElementById("TheHatchPlacerID").style.opacity = current_opacity.toString()
-            clearInterval(fadeinterval)
-        } else {
-            document.getElementById("TheHatchPlacerID").style.opacity = current_opacity.toString()
-        }
-    }, 20)
-
-
-    window.onload = function(){
-        Add_Image()
-    };
 
     let square = "M 24.186308,1.7697298 H 2.1236758 L 2.0450212,24.343617 24.186308,24.146981 Z"
     let pSymbol = document.getElementById("playerSymbol")
@@ -639,7 +644,7 @@
         if (current_level === 2) {
             showMenuPage("MenuPageID")
         } else
-         {
+        {
             menu_clicked()
         }
     }
@@ -695,7 +700,7 @@
         } else
         {
             let gMenu = document.getElementById("glassMenu")
-                gMenu.style.display = "flex"
+            gMenu.style.display = "flex"
             showMenuPage("MenuPageID")
         }
         menu_open = !menu_open
