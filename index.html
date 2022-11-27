@@ -328,7 +328,7 @@
         <div class="InfoText Overlay" id="NowPlaying"></div>
     </div>
     <div>
-        <div class="InfoText Overlay" id="NextShow">Next Live Show - 30th November 8:00pm (GMT) - Prole's Midweek Distractions</div>
+        <div class="InfoText Overlay" id="NextShow"></div>
         <div class="padder"></div>
     </div>
 </div>
@@ -454,6 +454,62 @@
         })
     }
 
+    function datediff(first, second) {
+        return Math.round((second - first) / (1000 * 60 * 60 * 24));
+    }
+
+    let closestdays = 1000000
+    let closestEventText = ""
+    let currentDate = Date.now()
+
+    // Load upcoming shows from Google Sheets
+    fetchAsync('https://sheetdb.io/api/v1/8dt5zpsbyfm3b').then(data => {
+
+        // Helper function to convert text to date
+        function convertTextToDate(aText) {
+            let parts = aText.split('/')
+            return new Date(parts[2], parts[1] - 1, parts[0])
+        }
+
+        // Sort the shows by date
+        function compare( a, b ) {
+            let adate = convertTextToDate(a["Date"])
+            let bdate = convertTextToDate(b["Date"])
+            if ( adate < bdate ){
+                return -1;
+            }
+            if ( adate > bdate ){
+                return 1;
+            }
+            return 0;
+        }
+
+        data.sort( compare );
+
+        data.forEach(aEvent => {
+            let thisdate = convertTextToDate(aEvent["Date"])
+            let daysDifferent = datediff(currentDate, thisdate)
+            if (daysDifferent >= 0 ) {
+                if (daysDifferent < closestdays) {
+                    closestdays = daysDifferent
+                    closestEventText = "Next Live Show - " + aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"]
+                }
+                let aEvent_div = document.createElement("DIV")
+                aEvent_div.classList.add("DJContainer");
+                eventlist.appendChild(aEvent_div)
+                let inner_event = document.createElement("DIV")
+                inner_event.classList.add("EventItem");
+                aEvent_div.appendChild(inner_event)
+                inner_event.innerText = "Next Live Show - " + aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"]
+                let apadder = document.createElement("DIV")
+                apadder.classList.add("DJPadder")
+                aEvent_div.appendChild(apadder)}
+        })
+
+        const nextShow = document.getElementById("NextShow");
+        nextShow.innerText = closestEventText
+    })
+
     updateNowplaying();
 
     setInterval(function() {updateNowplaying()}, 30000)
@@ -534,27 +590,13 @@
 
     })
     eventlist = document.getElementById("EventList")
-    appdata["upcoming"].forEach(aEvent => {
-        let aEvent_div = document.createElement("DIV")
-        aEvent_div.classList.add("DJContainer");
-        eventlist.appendChild(aEvent_div)
-        let inner_event = document.createElement("DIV")
-        inner_event.classList.add("EventItem");
-        aEvent_div.appendChild(inner_event)
-        inner_event.innerText = aEvent["date"] + ' - ' + aEvent["event_text"]
-        let apadder = document.createElement("DIV")
-        apadder.classList.add("DJPadder")
-        aEvent_div.appendChild(apadder)
-    })
 
     let myinterval = setInterval(function () {
         if (document.getElementById('background').offsetWidth > 0) {
-            console.log("The new div was just appended!");
             let background_width = document.getElementById("background").offsetWidth;
             if (background_width > window.innerWidth) {
                 background_width = window.innerWidth
             }
-            console.log("Background with = " + background_width)
             document.getElementById("NowPlaying").style.width ="fit-content";
             document.getElementById("NextShow").style.width = "fit-content";
             document.getElementById("glassMenu").style.width = (background_width * 0.85) + "px";
@@ -563,16 +605,12 @@
             document.getElementById("ArrowID").style.visibility = "visible";
             // document.getElementById("TheHatchPlacerID").style.display = "none"
             document.getElementById("TheHatchPlacerID").style.zIndex = "none"
-            console.log(window.innerWidth)
-            console.log(background_width)
-            console.log(((window.innerWidth / 2) - (background_width / 2)))
             document.getElementById("ThreeLines").style.left = ((window.innerWidth / 2) - (background_width / 2)) + "px";
             document.getElementById("ThreeLines").style.display = "block"
             clearInterval(myinterval)
             let fadeinterval = setInterval(function () {
                 let current_opacity_text = document.getElementById("TheHatchPlacerID").style.opacity
                 let current_opacity = parseFloat(current_opacity_text)
-                console.log(current_opacity)
                 current_opacity = current_opacity - 0.01
                 if (current_opacity <= 0 ) {
                     current_opacity = 0
@@ -651,7 +689,6 @@
     }
 
     function menu_clicked(){
-        console.log("Menu Clicked")
         switch_overlay()
         if (menu_open) {
             let gMenu = document.getElementById("glassMenu")
