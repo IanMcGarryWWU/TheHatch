@@ -119,6 +119,7 @@
             visibility: visible;
             height: 66vh;
             width: 100vw;
+            padding: 10px;
         }
 
         .MenuPage {
@@ -167,9 +168,10 @@
         .EventPage {
             display: none;
             flex-direction: column;
-            justify-content:  space-around;
             align-content: center;
             height: 100%;
+            overflow-y: scroll;
+            padding: 10px;
         }
 
         .EventItem {
@@ -459,17 +461,7 @@
         ],
         "about": "The Hatch was set up during the first lockdown of 2020 as a way for friends to stay connected whilst enjoying quality underground dance music. Although we mainly focus on all things House and Techno, we also regularly delve into other genres. \n" +
             "<br /> <br />" +
-            "If you would like to get involved with the community by joining the chat group, or if you would like to contact us for any other reason, you can email us at thehatch.tech@gmail.com",
-        "upcoming": [
-            {
-                "date": "19/11/2022",
-                "event_text": "Nayf and Papadamour"
-            },
-            {
-                "date": "23/11/2022",
-                "event_text": "Midweek Distractions"
-            }
-        ]
+            "If you would like to get involved with the community by joining the chat group, or if you would like to contact us for any other reason, you can email us at thehatch.tech@gmail.com"
     }
 
     let startTime = Date.now()
@@ -531,6 +523,7 @@
         console.log(currentDate)
         data.sort( compare );
 
+
         data.forEach(aEvent => {
             let thisdate = convertTextToDate(aEvent["Date"])
             let daysDifferent = datediff(currentDate, thisdate)
@@ -545,7 +538,7 @@
                 let inner_event = document.createElement("DIV")
                 inner_event.classList.add("EventItem");
                 aEvent_div.appendChild(inner_event)
-                inner_event.innerText = "Next Live Show - " + aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"]
+                inner_event.innerText = aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"]
                 let apadder = document.createElement("DIV")
                 apadder.classList.add("DJPadder")
                 aEvent_div.appendChild(apadder)}
