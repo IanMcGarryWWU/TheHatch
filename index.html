@@ -524,6 +524,20 @@
         console.log(currentDate)
         data.sort( compare );
 
+        function add_event_text(some_text) {
+            let aEvent_div = document.createElement("DIV")
+            aEvent_div.classList.add("DJContainer");
+            eventlist.appendChild(aEvent_div)
+            let inner_event = document.createElement("DIV")
+            inner_event.classList.add("EventItem");
+            aEvent_div.appendChild(inner_event)
+            inner_event.innerText = some_text
+            let apadder = document.createElement("DIV")
+            apadder.classList.add("DJPadder")
+            aEvent_div.appendChild(apadder)
+        }
+
+        add_event_text("ALL SET TIMES ARE GMT")
 
         data.forEach(aEvent => {
             let thisdate = convertTextToDate(aEvent["Date"])
@@ -533,17 +547,8 @@
                     closestdays = daysDifferent
                     closestEventText = "Next Live Show - " + aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"]
                 }
-                let aEvent_div = document.createElement("DIV")
-                aEvent_div.classList.add("DJContainer");
-                eventlist.appendChild(aEvent_div)
-                let inner_event = document.createElement("DIV")
-                inner_event.classList.add("EventItem");
-                aEvent_div.appendChild(inner_event)
-                inner_event.innerText = aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"]
-                let apadder = document.createElement("DIV")
-                apadder.classList.add("DJPadder")
-                aEvent_div.appendChild(apadder)}
-        })
+                add_event_text(aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"])
+        }})
 
         const nextShow = document.getElementById("NextShow");
         nextShow.innerText = closestEventText
