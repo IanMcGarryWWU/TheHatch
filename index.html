@@ -344,6 +344,7 @@
             C 7.5901747,7.983448 14.118512,1.1798199 14.118512,1.1798199 Z" fill="#FFFFFF" stroke="#FFFFFF"/>
         </svg>
         <div class="MenuPage RootMenu" id="MenuPageID">
+            <div class="menuOption" id="EPLink"> <div>Buy EP</div> </div>
             <div class="menuOption" id="AboutButton"> <div>About</div> </div>
             <div class="menuOption" id="DJListButton"> <div>Regular DJs </div> </div>
             <div class="menuOption" id="UpcomingButton"> <div>Upcoming Shows </div> </div>
@@ -636,6 +637,9 @@
         return !audElem.paused;
     };
 
+    document.getElementById("EPLink").onclick = function() {
+        let URL = "https://www.beatport.com/release/protection/3897765"
+        window.open(URL, '_blank'); }
     document.getElementById("AboutButton").onclick = function() { showMenuPage("AboutID")}
     document.getElementById("DJListButton").onclick= function() { showMenuPage("DJList")}
     document.getElementById("UpcomingButton").onclick = function() { showMenuPage("EventList")}
