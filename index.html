@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="preload" href="https://fonts.googleapis.com/css?family=Anton" as="font" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Anton" as="style" crossorigin>
     <meta charset="UTF-8">
     <title>The Hatch</title>
     <style>
@@ -344,7 +344,6 @@
             C 7.5901747,7.983448 14.118512,1.1798199 14.118512,1.1798199 Z" fill="#FFFFFF" stroke="#FFFFFF"/>
         </svg>
         <div class="MenuPage RootMenu" id="MenuPageID">
-            <div class="menuOption" id="EPLink"> <div>Buy EP</div> </div>
             <div class="menuOption" id="AboutButton"> <div>About</div> </div>
             <div class="menuOption" id="DJListButton"> <div>Regular DJs </div> </div>
             <div class="menuOption" id="UpcomingButton"> <div>Upcoming Shows </div> </div>
@@ -491,27 +490,32 @@
         })
     }
 
-    function datediff(first, second) {
-        return Math.round((second - first) / (1000 * 60 * 60 * 24));
-    }
-
-    let closestdays = 1000000
-    let closestEventText = ""
-
-
     // Load upcoming shows from Google Sheets
-    fetchAsync('https://sheetdb.io/api/v1/8dt5zpsbyfm3b').then(data => {
+    const sheeturl = 'https://sheets.googleapis.com/v4/spreadsheets/1zRf--7vsXUQz3SMBrH5K2l6JQ0JD8Ta8byNADsOo5_k/values/Sheet1?alt=json&key=AIzaSyBCLWCpZG5lwHbj1u8DqnYkHaMSCJ66tTo'
+    fetchAsync(sheeturl).then(data_toplevel => {
+        // convert Json response
+
+        let data = data_toplevel["values"]
+        data.shift()
+        data = data.map((anitem) => {
+            return {"Event Description": anitem[0],
+                "Date": anitem[1],
+                "Time": anitem[2]
+            }
+        })
 
         // Helper function to convert text to date
-        function convertTextToDate(aText) {
+        function convertTextToDate(aText, aTimeText) {
+            let hour = aTimeText.replace('pm','').split("-")[0]
+            hour = parseInt(hour) + 12
             let parts = aText.split('/')
-            return new Date(parts[2], parts[1] - 1, parts[0])
+            return new Date(parts[2], parts[1] - 1, parts[0], hour)
         }
 
         // Sort the shows by date
         function compare( a, b ) {
-            let adate = convertTextToDate(a["Date"])
-            let bdate = convertTextToDate(b["Date"])
+            let adate = convertTextToDate(a["Date"], a["Time"])
+            let bdate = convertTextToDate(b["Date"], b["Time"])
             if ( adate < bdate ){
                 return -1;
             }
@@ -520,10 +524,6 @@
             }
             return 0;
         }
-        let d = new Date()
-        let currentDate = convertTextToDate(d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear())
-        console.log(currentDate)
-        data.sort( compare );
 
         function add_event_text(some_text) {
             let aEvent_div = document.createElement("DIV")
@@ -539,20 +539,30 @@
         }
 
         add_event_text("ALL SET TIMES ARE GMT")
+        data.sort( compare );
 
-        data.forEach(aEvent => {
-            let thisdate = convertTextToDate(aEvent["Date"])
-            let daysDifferent = datediff(currentDate, thisdate)
-            if (daysDifferent >= 0 ) {
-                if (daysDifferent < closestdays) {
-                    closestdays = daysDifferent
-                    closestEventText = "Next Live Show - " + aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"]
-                }
-                add_event_text(aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"])
-        }})
 
-        const nextShow = document.getElementById("NextShow");
-        nextShow.innerText = closestEventText
+        let d = new Date()
+        let datetimeurl = "http://worldclockapi.com/api/json/utc/now"
+
+        let closestdays = 24 * 60 * 60 * 1000 * 1000
+        let closestEventText = ""
+
+        fetchAsync(datetimeurl).then(currentDateData => {
+            const currentDate = new Date(currentDateData["currentDateTime"])
+            data.forEach(aEvent => {
+                let thisdate = convertTextToDate(aEvent["Date"], aEvent["Time"])
+                let milliSecondsDifferent = (thisdate - currentDate) / 1000000
+                if (milliSecondsDifferent >= 0 ) {
+                    if (milliSecondsDifferent < closestdays) {
+                        closestdays = milliSecondsDifferent
+                        closestEventText = "Next Live Show - " + aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"]
+                    }
+                    add_event_text(aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"])
+                }})
+            const nextShow = document.getElementById("NextShow");
+            nextShow.innerText = closestEventText
+        })
     })
 
     updateNowplaying();
@@ -637,9 +647,6 @@
         return !audElem.paused;
     };
 
-    document.getElementById("EPLink").onclick = function() {
-        let URL = "https://www.beatport.com/release/protection/3897765"
-        window.open(URL, '_blank'); }
     document.getElementById("AboutButton").onclick = function() { showMenuPage("AboutID")}
     document.getElementById("DJListButton").onclick= function() { showMenuPage("DJList")}
     document.getElementById("UpcomingButton").onclick = function() { showMenuPage("EventList")}
