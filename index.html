@@ -313,7 +313,7 @@
 
 <div class="ArrowPlacer Overlay" id="ArrowPlacerID">
     <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="play1()" class="Arrow" id="ArrowID" class="Overlay">
-        <path id="playerSymbol" d="M 26.501617,0.25027746 C 0.39963167,13.683008 0.22246902,13.683008 0.22246902,13.683008 L 26.088237,26.334765 25.917948,13.877086 Z" fill="Cyan" stroke="FFFFF"/>
+        <path id="playerSymbol" d="M 26.501617,0.25027746 C 0.39963167,13.683008 0.22246902,13.683008 0.22246902,13.683008 L 26.088237,26.334765 25.917948,13.877086 Z" fill="Yellow" stroke="FFFFF"/>
     </svg>
     <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="menu_clicked()" class="menubutton" id="ThreeLines" >
         <path id="menu1" d="M 2.9102224,2.9102224 23.203125,2.9495498 23.281779,6.6856461 2.7135857,6.1743909 Z" fill="#FFFFFF" stroke="#FFFFFF"/>
@@ -543,26 +543,30 @@
 
 
         let d = new Date()
-        let datetimeurl = "https://www.timeapi.io/api/Time/current/zone?timeZone=Europe/London"
 
         let closestdays = 24 * 60 * 60 * 1000 * 1000
         let closestEventText = ""
 
-        fetchAsync(datetimeurl).then(currentDateData => {
-            const currentDate = new Date(currentDateData["dateTime"])
-            data.forEach(aEvent => {
-                let thisdate = convertTextToDate(aEvent["Date"], aEvent["Time"])
-                let milliSecondsDifferent = (thisdate - currentDate) / 1000000
-                if (milliSecondsDifferent >= 0 ) {
-                    if (milliSecondsDifferent < closestdays) {
-                        closestdays = milliSecondsDifferent
-                        closestEventText = "Next Live Show - " + aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"]
-                    }
-                    add_event_text(aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"])
-                }})
-            const nextShow = document.getElementById("NextShow");
-            nextShow.innerText = closestEventText
-        })
+
+        let currentDate = new Date()
+        const timezoneoffet = currentDate.getTimezoneOffset()
+        console.log(currentDate)
+        console.log(timezoneoffet)
+        currentDate = currentDate - (timezoneoffet * 60000)
+        console.log(currentDate)
+        data.forEach(aEvent => {
+            let thisdate = convertTextToDate(aEvent["Date"], aEvent["Time"])
+            let milliSecondsDifferent = (thisdate - currentDate) / 1000000
+            if (milliSecondsDifferent >= 0 ) {
+                if (milliSecondsDifferent < closestdays) {
+                    closestdays = milliSecondsDifferent
+                    closestEventText = "Next Live Show - " + aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"]
+                }
+                add_event_text(aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"])
+            }})
+        const nextShow = document.getElementById("NextShow");
+        nextShow.innerText = closestEventText
+
     })
 
     updateNowplaying();
