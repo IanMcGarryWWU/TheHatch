@@ -554,6 +554,7 @@
         console.log(timezoneoffet)
         currentDate = currentDate - (timezoneoffet * 60000)
         console.log(currentDate.toString())
+        console.log("Changed gone through")
         console.log(data)
         data.forEach(aEvent => {
             let thisdate = convertTextToDate(aEvent["Date"], aEvent["Time"])
