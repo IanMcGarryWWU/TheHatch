@@ -511,12 +511,8 @@
             hour = parseInt(hour) + 12
             let parts = aText.split('/')
             let nonadjustedate = new Date(parts[2], parts[1] - 1, parts[0], hour)
-            console.log('In convert to text')
-            console.log(nonadjustedate)
             const timezoneoffet = nonadjustedate.getTimezoneOffset()
             let adjusteddate = new Date(nonadjustedate.getTime() + timezoneoffet*60000*-1);
-            console.log(adjusteddate)
-            console.log('----')
             return adjusteddate
         }
 
@@ -558,17 +554,9 @@
 
         let currentDate = new Date()
         const timezoneoffet = currentDate.getTimezoneOffset()
-        console.log(currentDate)
-        // currentDate = new Date(currentDate.getTime() + timezoneoffet*60000);
-        console.log(currentDate.toString())
-        console.log(data)
         data.forEach(aEvent => {
             let thisdate = convertTextToDate(aEvent["Date"], aEvent["Time"])
             let milliSecondsDifferent = (thisdate - currentDate) / (60 * 60 * 1000)
-            console.log(aEvent["Event Description"])
-            console.log(thisdate)
-            console.log(currentDate)
-            console.log(milliSecondsDifferent)
             if (milliSecondsDifferent >= 0 ) {
                 if (milliSecondsDifferent < closestdays) {
                     closestdays = milliSecondsDifferent
@@ -578,7 +566,6 @@
             }})
         const nextShow = document.getElementById("NextShow");
         nextShow.innerText = closestEventText
-
     })
 
     updateNowplaying();
