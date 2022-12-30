@@ -514,7 +514,7 @@
             console.log('In convert to text')
             console.log(nonadjustedate)
             const timezoneoffet = nonadjustedate.getTimezoneOffset()
-            let adjusteddate = new Date(nonadjustedate.getTime() + timezoneoffet*60000*2);
+            let adjusteddate = new Date(nonadjustedate.getTime() + timezoneoffet*60000*-1);
             console.log(adjusteddate)
             console.log('----')
             return adjusteddate
@@ -561,7 +561,6 @@
         console.log(currentDate)
         // currentDate = new Date(currentDate.getTime() + timezoneoffet*60000);
         console.log(currentDate.toString())
-        console.log("Changed gone through 2")
         console.log(data)
         data.forEach(aEvent => {
             let thisdate = convertTextToDate(aEvent["Date"], aEvent["Time"])
