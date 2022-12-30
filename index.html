@@ -511,8 +511,13 @@
             hour = parseInt(hour) + 12
             let parts = aText.split('/')
             let nonadjustedate = new Date(parts[2], parts[1] - 1, parts[0], hour)
+            console.log('In convert to text')
+            console.log(nonadjustedate)
             const timezoneoffet = nonadjustedate.getTimezoneOffset()
-            return new Date(nonadjustedate.getTime() + timezoneoffet*60000);
+            let adjusteddate = new Date(nonadjustedate.getTime() + timezoneoffet*60000);
+            console.log(adjusteddate)
+            console.log('----')
+            return adjusteddate
         }
 
         // Sort the shows by date
