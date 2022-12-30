@@ -554,9 +554,12 @@
         console.log(timezoneoffet)
         currentDate = currentDate - (timezoneoffet * 60000)
         console.log(currentDate)
+        console.log(data)
         data.forEach(aEvent => {
             let thisdate = convertTextToDate(aEvent["Date"], aEvent["Time"])
             let milliSecondsDifferent = (thisdate - currentDate) / 1000000
+            console.log(aEvent["Event Description"])
+            console.log(milliSecondsDifferent)
             if (milliSecondsDifferent >= 0 ) {
                 if (milliSecondsDifferent < closestdays) {
                     closestdays = milliSecondsDifferent
