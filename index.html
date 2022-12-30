@@ -512,7 +512,7 @@
             let parts = aText.split('/')
             let nonadjustedate = new Date(parts[2], parts[1] - 1, parts[0], hour)
             const timezoneoffet = nonadjustedate.getTimezoneOffset()
-            return = new Date(nonadjustedate.getTime() + timezoneoffet*60000);
+            return new Date(nonadjustedate.getTime() + timezoneoffet*60000);
         }
 
         // Sort the shows by date
