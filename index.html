@@ -560,6 +560,8 @@
             let thisdate = convertTextToDate(aEvent["Date"], aEvent["Time"])
             let milliSecondsDifferent = (thisdate - currentDate) / 1000000
             console.log(aEvent["Event Description"])
+            console.log(thisdate)
+            console.log(currentDate)
             console.log(milliSecondsDifferent)
             if (milliSecondsDifferent >= 0 ) {
                 if (milliSecondsDifferent < closestdays) {
