@@ -507,8 +507,12 @@
         // Helper function to convert text to date
         // this converts it relevant to the timezone
         function convertTextToDate(aText, aTimeText) {
+            let ampm = aTimeText.slice(-2)
             let hour = aTimeText.replace('pm','').split("-")[0]
-            hour = parseInt(hour) + 12
+            hour = parseInt(hour)
+            if (ampm === 'pm') {
+                hour = hour + 12
+            }
             let parts = aText.split('/')
             let nonadjustedate = new Date(parts[2], parts[1] - 1, parts[0], hour)
             const timezoneoffet = nonadjustedate.getTimezoneOffset()
