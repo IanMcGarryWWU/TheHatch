@@ -512,6 +512,13 @@
             hour = parseInt(hour)
             if (ampm === 'pm') {
                 hour = hour + 12
+            } else {
+                if (hour === 12) {
+                    hour = 0
+                }
+                if (hour === 11) {
+                    hour = hour + 12
+                }
             }
             let parts = aText.split('/')
             let nonadjustedate = new Date(parts[2], parts[1] - 1, parts[0], hour)
@@ -544,6 +551,16 @@
             let apadder = document.createElement("DIV")
             apadder.classList.add("DJPadder")
             aEvent_div.appendChild(apadder)
+        }
+
+        const nth = function(d) {
+            if (d > 3 && d < 21) return 'th';
+            switch (d % 10) {
+                case 1:  return "st";
+                case 2:  return "nd";
+                case 3:  return "rd";
+                default: return "th";
+            }
         }
 
         add_event_text("ALL SET TIMES ARE GMT")
