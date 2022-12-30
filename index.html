@@ -514,7 +514,7 @@
             console.log('In convert to text')
             console.log(nonadjustedate)
             const timezoneoffet = nonadjustedate.getTimezoneOffset()
-            let adjusteddate = new Date(nonadjustedate.getTime() + timezoneoffet*60000);
+            let adjusteddate = new Date(nonadjustedate.getTime() + timezoneoffet*60000*2);
             console.log(adjusteddate)
             console.log('----')
             return adjusteddate
