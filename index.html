@@ -505,11 +505,14 @@
         })
 
         // Helper function to convert text to date
+        // this converts it relevant to the timezone
         function convertTextToDate(aText, aTimeText) {
             let hour = aTimeText.replace('pm','').split("-")[0]
             hour = parseInt(hour) + 12
             let parts = aText.split('/')
-            return new Date(parts[2], parts[1] - 1, parts[0], hour)
+            let nonadjustedate = new Date(parts[2], parts[1] - 1, parts[0], hour)
+            const timezoneoffet = nonadjustedate.getTimezoneOffset()
+            return = new Date(nonadjustedate.getTime() + timezoneoffet*60000);
         }
 
         // Sort the shows by date
@@ -551,7 +554,7 @@
         let currentDate = new Date()
         const timezoneoffet = currentDate.getTimezoneOffset()
         console.log(currentDate)
-        console.log(timezoneoffet)
+        console.log(timezoneoffset)
         // currentDate = new Date(currentDate.getTime() + timezoneoffet*60000);
         console.log(currentDate.toString())
         console.log("Changed gone through 2")
