@@ -543,13 +543,13 @@
 
 
         let d = new Date()
-        let datetimeurl = "http://worldclockapi.com/api/json/utc/now"
+        let datetimeurl = "https://www.timeapi.io/api/Time/current/zone?timeZone=Europe/London"
 
         let closestdays = 24 * 60 * 60 * 1000 * 1000
         let closestEventText = ""
 
         fetchAsync(datetimeurl).then(currentDateData => {
-            const currentDate = new Date(currentDateData["currentDateTime"])
+            const currentDate = new Date(currentDateData["dateTime"])
             data.forEach(aEvent => {
                 let thisdate = convertTextToDate(aEvent["Date"], aEvent["Time"])
                 let milliSecondsDifferent = (thisdate - currentDate) / 1000000
