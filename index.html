@@ -571,19 +571,22 @@
 
         let closestdays = 24 * 60 * 60 * 1000 * 1000
         let closestEventText = ""
-
-
         let currentDate = new Date()
-        const timezoneoffet = currentDate.getTimezoneOffset()
         data.forEach(aEvent => {
             let thisdate = convertTextToDate(aEvent["Date"], aEvent["Time"])
             let milliSecondsDifferent = (thisdate - currentDate) / (60 * 60 * 1000)
+            let dayofmonth = thisdate.getDate()
+            let suffix = nth(dayofmonth)
+            // let monthName = thisdate.toLocaleString('en-US', {month: 'short'});
+            let dayOfWeekName = thisdate.toLocaleString('en-US', {weekday: 'short'});
+            let dateString = dayOfWeekName + " " + dayofmonth + suffix
             if (milliSecondsDifferent >= 0 ) {
                 if (milliSecondsDifferent < closestdays) {
                     closestdays = milliSecondsDifferent
-                    closestEventText = "Next Live Show - " + aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"]
+
+                    closestEventText = "Next Live Show - " + dateString + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"]
                 }
-                add_event_text(aEvent["Date"] + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"])
+                add_event_text(dateString + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"])
             }})
         const nextShow = document.getElementById("NextShow");
         nextShow.innerText = closestEventText
