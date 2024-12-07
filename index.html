@@ -42,14 +42,14 @@
         }
         .Arrow {
             cursor: pointer;
-            transform: rotate(180deg);
-            visibility: hidden;
-            animation: pulse 2s infinite;
+            transform-origin: center;
+            animation: pulse 2s infinite, glow 2s infinite; /* Add the glow animation here */
             fill: yellow;
+            visibility: visible; /* Ensure it's always visible */
         }
-    
+        
         .Arrow:hover {
-            animation: pulse-hover 1.5s infinite, glow 1.5s infinite;
+            animation: pulse-hover 1.5s infinite, glow 1.5s infinite; /* Keep hover animations for intensity */
         }
         
         /* Undulating size animation */
@@ -65,10 +65,10 @@
         /* Glow effect */
         @keyframes glow {
             0%, 100% {
-                filter: drop-shadow(0 0 25px yellow);
+                filter: drop-shadow(0 0 25px yellow); /* Subtle glow */
             }
             50% {
-                filter: drop-shadow(0 0 50px yellow);
+                filter: drop-shadow(0 0 50px yellow); /* Intense glow */
             }
         }
         
