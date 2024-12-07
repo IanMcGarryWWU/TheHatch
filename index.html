@@ -42,12 +42,50 @@
         }
         .Arrow {
             cursor: pointer;
-            -webkit-animation: fadeinout 10s ease-in-out ;
             transform: rotate(180deg);
             visibility: hidden;
         }
 
-        .ArrowPlacer {
+        .Arrow {
+        animation: pulse 2s infinite;
+        cursor: pointer;
+        fill: yellow;
+    }
+
+    .Arrow:hover {
+        animation: pulse-hover 1.5s infinite, glow 1.5s infinite;
+    }
+    
+    /* Undulating size animation */
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+    }
+    
+    /* Glow effect */
+    @keyframes glow {
+        0%, 100% {
+            filter: drop-shadow(0 0 5px yellow);
+        }
+        50% {
+            filter: drop-shadow(0 0 15px yellow);
+        }
+    }
+    
+    /* Hover animation that combines size pulse and glow intensification */
+    @keyframes pulse-hover {
+        0%, 100% {
+            transform: scale(1.05);
+        }
+        50% {
+            transform: scale(1.15);
+        }
+    }
+            .ArrowPlacer {
             position: absolute;
             width: 100%;
             height: 100%;
