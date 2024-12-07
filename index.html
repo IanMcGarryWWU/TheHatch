@@ -47,40 +47,40 @@
             animation: pulse 2s infinite;
             fill: yellow;
         }
-
-    .Arrow:hover {
-        animation: pulse-hover 1.5s infinite, glow 1.5s infinite;
-    }
     
-    /* Undulating size animation */
-    @keyframes pulse {
-        0%, 100% {
-            transform: scale(1);
+        .Arrow:hover {
+            animation: pulse-hover 1.5s infinite, glow 1.5s infinite;
         }
-        50% {
-            transform: scale(1.1);
+        
+        /* Undulating size animation */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
         }
-    }
-    
-    /* Glow effect */
-    @keyframes glow {
-        0%, 100% {
-            filter: drop-shadow(0 0 5px yellow);
+        
+        /* Glow effect */
+        @keyframes glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 25px yellow);
+            }
+            50% {
+                filter: drop-shadow(0 0 50px yellow);
+            }
         }
-        50% {
-            filter: drop-shadow(0 0 15px yellow);
+        
+        /* Hover animation that combines size pulse and glow intensification */
+        @keyframes pulse-hover {
+            0%, 100% {
+                transform: scale(1.05);
+            }
+            50% {
+                transform: scale(1.15);
+            }
         }
-    }
-    
-    /* Hover animation that combines size pulse and glow intensification */
-    @keyframes pulse-hover {
-        0%, 100% {
-            transform: scale(1.05);
-        }
-        50% {
-            transform: scale(1.15);
-        }
-    }
             .ArrowPlacer {
             position: absolute;
             width: 100%;
@@ -225,8 +225,8 @@
         .InfoText {
             color: white;
             font-size: 3vh;
-            font-family: 'Anton', sans-serif;
-            opacity: 0.1;
+            font-family: 'Consolas', sans-serif;
+            opacity: 0.9;
             text-align: center;
             background-color: black;
             visibility: hidden;
