@@ -44,13 +44,9 @@
             cursor: pointer;
             transform: rotate(180deg);
             visibility: hidden;
+            animation: pulse 2s infinite;
+            fill: yellow;
         }
-
-        .Arrow {
-        animation: pulse 2s infinite;
-        cursor: pointer;
-        fill: yellow;
-    }
 
     .Arrow:hover {
         animation: pulse-hover 1.5s infinite, glow 1.5s infinite;
@@ -230,10 +226,7 @@
             color: white;
             font-size: 3vh;
             font-family: 'Anton', sans-serif;
-            -webkit-animation: fadeinout 10s ease-in-out ;
-            animation: fadeinout 10s ease-in-out ;
-            animation-iteration-count: infinite;
-            opacity: 0;
+            opacity: 0.1;
             text-align: center;
             background-color: black;
             visibility: hidden;
