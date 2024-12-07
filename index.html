@@ -40,20 +40,23 @@
             margin: auto;
             object-fit: fill;
         }
-        .Arrow {
-            cursor: pointer;
-            transform-origin: center;
-            animation: pulse 2s infinite, glow 2s infinite; /* Add the glow animation here */
-            fill: yellow;
-            visibility: visible; /* Ensure it's always visible */
+
+        .ArrowContainer {
             transform: rotate(180deg);
         }
         
-        .Arrow:hover {
-            animation: pulse-hover 1.5s infinite, glow 1.5s infinite; /* Keep hover animations for intensity */
+        .Arrow {
+            cursor: pointer;
+            transform-origin: center;
+            animation: pulse 2s infinite, glow 2s infinite; 
+            fill: yellow;
+            visibility: hidden; 
         }
         
-        /* Undulating size animation */
+        .Arrow:hover {
+            animation: pulse-hover 1.5s infinite, glow 1.5s infinite; 
+        }
+        
         @keyframes pulse {
             0%, 100% {
                 transform: scale(1);
@@ -63,7 +66,6 @@
             }
         }
         
-        /* Glow effect */
         @keyframes glow {
             0%, 100% {
                 filter: drop-shadow(0 0 25px yellow); /* Subtle glow */
@@ -73,13 +75,12 @@
             }
         }
         
-        /* Hover animation that combines size pulse and glow intensification */
         @keyframes pulse-hover {
             0%, 100% {
-                transform: scale(1.05);
+                transform: scale(1.2);
             }
             50% {
-                transform: scale(1.15);
+                transform: scale(1.3);
             }
         }
             .ArrowPlacer {
@@ -350,9 +351,11 @@
 <audio id="music" src="https://s1.citrus3.com:8236/stream"></audio>
 
 <div class="ArrowPlacer Overlay" id="ArrowPlacerID">
-    <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="play1()" class="Arrow" id="ArrowID" class="Overlay">
-        <path id="playerSymbol" d="M 26.501617,0.25027746 C 0.39963167,13.683008 0.22246902,13.683008 0.22246902,13.683008 L 26.088237,26.334765 25.917948,13.877086 Z" fill="Yellow" stroke="FFFFF"/>
-    </svg>
+    <div class="ArrowContainer">
+        <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="play1()" class="Arrow" id="ArrowID" class="Overlay">
+            <path id="playerSymbol" d="M 26.501617,0.25027746 C 0.39963167,13.683008 0.22246902,13.683008 0.22246902,13.683008 L 26.088237,26.334765 25.917948,13.877086 Z" fill="Yellow" stroke="FFFFF"/>
+        </svg>
+    </div>
     <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="menu_clicked()" class="menubutton" id="ThreeLines" >
         <path id="menu1" d="M 2.9102224,2.9102224 23.203125,2.9495498 23.281779,6.6856461 2.7135857,6.1743909 Z" fill="#FFFFFF" stroke="#FFFFFF"/>
         <path id="menu2" d="M 3.1461863,11.48358 23.832362,11.798199 23.793035,15.61295 3.1855137,15.101695 Z" fill="#FFFFFF" stroke="#FFFFFF"/>
