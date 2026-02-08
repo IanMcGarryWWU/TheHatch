@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="preload" href="https://fonts.googleapis.com/css?family=Anton" as="style" crossorigin>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+
+    <!-- Fix: load the Google Font properly -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+
     <meta property="og:url" content="https://thehatch.tech/" />
     <meta property="og:title" content="The Hatch Radio Station" />
     <meta property="og:description" content="24/7 streamed electronic music with frequent live shows and chatroom" />
-    <meta property="og:image" itemprop="image" content="https://github.com/IanMcGarryWWU/TheHatch/blob/master/256.jpg?raw=true" />
-    <meta property="og:image:secure_url" itemprop="image" content="https://github.com/IanMcGarryWWU/TheHatch/blob/master/256.jpg?raw=true" />
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:type" content="website" />
-    <title>The Hatch</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
 
-        body
-        {
+    <!-- Fix: use a direct image URL (GitHub blob URLs can be flaky for social cards) -->
+    <meta property="og:image" content="https://raw.githubusercontent.com/IanMcGarryWWU/TheHatch/master/256.jpg" />
+    <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/IanMcGarryWWU/TheHatch/master/256.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:type" content="website" />
+
+    <title>The Hatch</title>
+
+    <style>
+        * { margin: 0; padding: 0; }
+
+        body {
             background: #000000;
             overflow: hidden;
         }
@@ -39,16 +44,14 @@
             box-sizing: border-box;
         }
 
-        .djImage {
-
-        }
-
         .imgbox {
             display: flex;
             height: 100vh;
-            flex-display: column;
+            /* Fix: typo (flex-display isn't a thing) */
+            flex-direction: column;
             justify-content: center;
         }
+
         .center-fit {
             max-width: 100%;
             height: 100vh;
@@ -56,49 +59,36 @@
             object-fit: fill;
         }
 
-        .ArrowContainer {
-            transform: rotate(180deg);
-        }
-        
+        .ArrowContainer { transform: rotate(180deg); }
+
         .Arrow {
             cursor: pointer;
             transform-origin: center;
-            animation: pulse 2s infinite, glow 2s infinite; 
+            animation: pulse 2s infinite, glow 2s infinite;
             fill: yellow;
-            visibility: hidden; 
+            visibility: hidden;
         }
-        
+
         .Arrow:hover {
-            animation: pulse-hover 1.5s infinite, glow 1.5s infinite; 
+            animation: pulse-hover 1.5s infinite, glow 1.5s infinite;
         }
-        
+
         @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
-        
+
         @keyframes glow {
-            0%, 100% {
-                filter: drop-shadow(0 0 25px yellow); /* Subtle glow */
-            }
-            50% {
-                filter: drop-shadow(0 0 50px yellow); /* Intense glow */
-            }
+            0%, 100% { filter: drop-shadow(0 0 25px yellow); }
+            50% { filter: drop-shadow(0 0 50px yellow); }
         }
-        
+
         @keyframes pulse-hover {
-            0%, 100% {
-                transform: scale(1.2);
-            }
-            50% {
-                transform: scale(1.3);
-            }
+            0%, 100% { transform: scale(1.2); }
+            50% { transform: scale(1.3); }
         }
-            .ArrowPlacer {
+
+        .ArrowPlacer {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -108,7 +98,6 @@
             justify-content: center;
             align-items: center;
             z-index: 20000;
-            
         }
 
         .TextPlacer {
@@ -127,7 +116,8 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 255);
+            /* Fix: alpha channel must be 0..1, not 255 */
+            background: rgba(0, 0, 0, 1);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -163,12 +153,12 @@
         }
 
         .GlassCard {
-            background: rgba( 255, 255, 255, 0.05 );
-            box-shadow: 0 0.125em 0.5em 0 rgba( 0, 0, 0, 0.37 );
-            backdrop-filter: blur(10.0px );
-            -webkit-backdrop-filter: blur(10.0px );
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0.125em 0.5em 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: 10px;
-            border: 1px solid rgba( 255, 255, 255, 0.18 );
+            border: 1px solid rgba(255, 255, 255, 0.18);
             color: white;
             display: none;
             justify-content: center;
@@ -177,6 +167,7 @@
             height: 66vh;
             width: 100vw;
             padding: 10px;
+            box-sizing: border-box;
         }
 
         .MenuPage {
@@ -188,13 +179,8 @@
             align-items: center;
         }
 
-        .RootMenu {
-            display: none;
-        }
-
-        .About {
-            display: none;
-        }
+        .RootMenu { display: none; }
+        .About { display: none; }
 
         .DJPage {
             display: none;
@@ -202,25 +188,10 @@
             justify-content: left;
         }
 
-        .DJLink {
-            font-size: 3vh;
-            color: blue;
-            cursor: pointer;
-        }
-        .DJName {
-            font-size: 4vh;
-            font-family: 'Anton', sans-serif;
-        }
-
-        .DJAboutInfo {
-            font-size: 3vh;
-            font-family: 'Anton', sans-serif;
-        }
-
-        .DJStyles {
-            font-size: 2vh;
-            font-family: 'Anton', sans-serif;
-        }
+        .DJLink { font-size: 3vh; color: blue; cursor: pointer; }
+        .DJName { font-size: 4vh; font-family: 'Anton', sans-serif; }
+        .DJAboutInfo { font-size: 3vh; font-family: 'Anton', sans-serif; }
+        .DJStyles { font-size: 2vh; font-family: 'Anton', sans-serif; }
 
         .EventPage {
             display: none;
@@ -229,6 +200,7 @@
             height: 100%;
             overflow-y: scroll;
             padding: 10px;
+            box-sizing: border-box;
         }
 
         .EventItem {
@@ -237,9 +209,8 @@
             text-align: center;
         }
 
-        .AboutTextClass {
-            padding: 20px;
-        }
+        .AboutTextClass { padding: 20px; }
+
         .InfoText {
             color: white;
             font-size: 3vh;
@@ -252,9 +223,7 @@
             width: fit-content;
         }
 
-        .padder {
-            height: 15vh;
-        }
+        .padder { height: 15vh; }
 
         iframe {
             width: 76.92% !important;
@@ -299,12 +268,10 @@
             padding: 5px;
         }
 
-        .DJPadder {
-            height: 4vh;
-        }
+        .DJPadder { height: 4vh; }
 
         .menubutton {
-            position:fixed;
+            position: fixed;
             top: 6vh;
             cursor: pointer;
             z-index: 20000;
@@ -318,13 +285,8 @@
             cursor: pointer;
         }
 
-        @-webkit-keyframes fadeinout {
-            50% { opacity: 0.7; }
-        }
-
-        @keyframes fadeinout {
-            50% { opacity: 0.7; }
-        }
+        @-webkit-keyframes fadeinout { 50% { opacity: 0.7; } }
+        @keyframes fadeinout { 50% { opacity: 0.7; } }
 
         .Chatroom {
             width: fit-content;
@@ -333,8 +295,8 @@
             color: cyan;
             font-size: 3vh;
             font-family: 'Anton', sans-serif;
-            -webkit-animation: fadeinout 10s ease-in-out ;
-            animation: fadeinout 10s ease-in-out ;
+            -webkit-animation: fadeinout 10s ease-in-out;
+            animation: fadeinout 10s ease-in-out;
             animation-iteration-count: infinite;
             opacity: 0;
             background-color: black;
@@ -350,40 +312,39 @@
             flex-direction: column;
             justify-content: flex-start;
             align-items: flex-end;
-
         }
-
-
     </style>
 </head>
+
 <body>
 <div class="AnnouncementBanner">
     🎉 Escape Hatch Festival - 22nd-24th May 2026 - Save the Date!! More details to follow… 🎉
-</div>    
-<div class="ChatroomPlacer">
-    <div class="Chatroom" id="ChatroomText">
-       
-    </div>
 </div>
+
+<div class="ChatroomPlacer">
+    <div class="Chatroom" id="ChatroomText"></div>
+</div>
+
 <audio id="music" src="https://s1.citrus3.com:8236/stream"></audio>
 
 <div class="ArrowPlacer Overlay" id="ArrowPlacerID">
     <div class="ArrowContainer">
-        <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="play1()" class="Arrow" id="ArrowID" class="Overlay">
-            <path id="playerSymbol" d="M 26.501617,0.25027746 C 0.39963167,13.683008 0.22246902,13.683008 0.22246902,13.683008 L 26.088237,26.334765 25.917948,13.877086 Z" fill="Yellow" stroke="FFFFF"/>
+        <!-- Fix: only one class attribute; stroke needs #; keep onclick as-is -->
+        <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="play1()" class="Arrow Overlay" id="ArrowID">
+            <path id="playerSymbol"
+                  d="M 26.501617,0.25027746 C 0.39963167,13.683008 0.22246902,13.683008 0.22246902,13.683008 L 26.088237,26.334765 25.917948,13.877086 Z"
+                  fill="Yellow" stroke="#FFFFFF"/>
         </svg>
     </div>
-    <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="menu_clicked()" class="menubutton" id="ThreeLines" >
+
+    <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="menu_clicked()" class="menubutton" id="ThreeLines">
         <path id="menu1" d="M 2.9102224,2.9102224 23.203125,2.9495498 23.281779,6.6856461 2.7135857,6.1743909 Z" fill="#FFFFFF" stroke="#FFFFFF"/>
         <path id="menu2" d="M 3.1461863,11.48358 23.832362,11.798199 23.793035,15.61295 3.1855137,15.101695 Z" fill="#FFFFFF" stroke="#FFFFFF"/>
         <path id="menu3" d="M 3.0675318,19.899629 2.870895,23.911017 c 0,0 21.315413,0.904528 21.236758,0.511255 -0.07865,-0.393273 -0.196636,-5.15188 -0.196636,-5.15188 z" fill="#FFFFFF" stroke="#FFFFFF"/>
     </svg>
 </div>
 
-
-
 <div class="TextPlacer Overlay">
-
     <div>
         <div class="padder"></div>
         <div class="InfoText Overlay" id="NowPlaying"></div>
@@ -393,6 +354,7 @@
         <div class="padder"></div>
     </div>
 </div>
+
 <div class="MenuPlacer">
     <div class="GlassCard" id="glassMenu">
         <svg height="10vh" width="10vh" viewBox="-1 -1 30 30" onClick="play1()" class="BackArrow" id="BackArrowID">
@@ -401,142 +363,90 @@
             16.7534425,1.8877121 16.7534425,1.8877121 V 5.3878442 c 0,0 -18.0119173,2.9102225 -17.7759531,2.7529131
             C 7.5901747,7.983448 14.118512,1.1798199 14.118512,1.1798199 Z" fill="#FFFFFF" stroke="#FFFFFF"/>
         </svg>
+
         <div class="MenuPage RootMenu" id="MenuPageID">
-            <div class="menuOption" id="AboutButton"> <div>About</div> </div>
-            <div class="menuOption" id="DJListButton"> <div>Regular DJs </div> </div>
-            <div class="menuOption" id="UpcomingButton"> <div>Upcoming Shows </div> </div>
+            <div class="menuOption" id="AboutButton"><div>About</div></div>
+            <div class="menuOption" id="DJListButton"><div>Regular DJs</div></div>
+            <div class="menuOption" id="UpcomingButton"><div>Upcoming Shows</div></div>
         </div>
+
         <div class="MenuPage About" id="AboutID">
-            <div class="menuOption" > <div id="AboutText" class="AboutTextClass"></div> </div>
+            <div class="menuOption"><div id="AboutText" class="AboutTextClass"></div></div>
         </div>
-        <div class="MenuPage DJPage" id="DJList" >
 
-        </div>
-        <div class="EventPage" id="EventList">
-
-        </div>
+        <div class="MenuPage DJPage" id="DJList"></div>
+        <div class="EventPage" id="EventList"></div>
     </div>
 </div>
-<div class="imgbox" id="imgboxid">
 
-</div>>
+<!-- Fix: remove the stray extra ">" -->
+<div class="imgbox" id="imgboxid"></div>
+
 <div class="TheHatchPlacer" id="TheHatchPlacerID">
-    <div class="TheHatch">
-        THE HATCH
-    </div>
-    <div class="Loading">
-        Loading - please wait
-    </div>
+    <div class="TheHatch">THE HATCH</div>
+    <div class="Loading">Loading - please wait</div>
 </div>
 
 <script>
-
     function Add_Image() {
         let img = document.createElement('img');
-        document.getElementById('imgboxid').appendChild(img)
-        let first = true
-        img.onload = () => {
-            if (first) {
-                console.log("Image loaded")
-            }
-            first = false
-            let fadeinterval = setInterval(function () {
-                let current_opacity_text = document.getElementById("TheHatchPlacerID").style.opacity
-                let current_opacity = parseFloat(current_opacity_text)
-                current_opacity = current_opacity - 0.01
-                if (current_opacity <= 0 || (Date.now() - startTime) > 9000) {
-                    current_opacity = 0
-                    document.getElementById("TheHatchPlacerID").style.opacity = current_opacity.toString()
-                    clearInterval(fadeinterval)
-                } else {
-                    document.getElementById("TheHatchPlacerID").style.opacity = current_opacity.toString()
-                }
-            }, 20)
+        document.getElementById('imgboxid').appendChild(img);
 
-        }
-        let screenratio = window.innerWidth / window.innerHeight
+        let first = true;
+        img.onload = () => {
+            if (first) console.log("Image loaded");
+            first = false;
+
+            let fadeinterval = setInterval(function () {
+                // Fix: opacity should be 0..1. Parse might get NaN on first run if unset.
+                let el = document.getElementById("TheHatchPlacerID");
+                let current_opacity = parseFloat(el.style.opacity);
+                if (Number.isNaN(current_opacity)) current_opacity = 1;
+
+                current_opacity = current_opacity - 0.01;
+
+                if (current_opacity <= 0 || (Date.now() - startTime) > 9000) {
+                    el.style.opacity = "0";
+                    clearInterval(fadeinterval);
+                } else {
+                    el.style.opacity = String(current_opacity);
+                }
+            }, 20);
+        };
+
+        let screenratio = window.innerWidth / window.innerHeight;
+
+        // Fix: use raw.githubusercontent URLs for the images too
         if (screenratio > 1.15) {
-            img.src =
-                "https://github.com/IanMcGarryWWU/TheHatch/blob/master/16-9.jpg?raw=true";
+            img.src = "https://raw.githubusercontent.com/IanMcGarryWWU/TheHatch/master/16-9.jpg";
         } else if (screenratio < 0.85) {
-            img.src =
-                "https://github.com/IanMcGarryWWU/TheHatch/blob/master/9-16.jpg?raw=true";
+            img.src = "https://raw.githubusercontent.com/IanMcGarryWWU/TheHatch/master/9-16.jpg";
         } else {
-            img.src =
-                "https://github.com/IanMcGarryWWU/TheHatch/blob/master/1-1.jpg?raw=true"
+            img.src = "https://raw.githubusercontent.com/IanMcGarryWWU/TheHatch/master/1-1.jpg";
         }
-        img.classList.add("center-fit")
-        img.onclick = play1
-        img.id = "background"
-        img.alt = "Midjourney AI Art by McGarr"
+
+        img.classList.add("center-fit");
+        img.onclick = play1;
+        img.id = "background";
+        img.alt = "Midjourney AI Art by McGarr";
     }
 
-    Add_Image()
+    Add_Image();
 
     appdata = {
         "djs": [
-            {
-                "name": "Martin Robinson",
-                "about": "Legendary DJ and producer",
-                "mixcloud_username": "Martin_Robinson",
-                "styles": "Tech House, Deep House, Minimal House, Drum & Bass"
-            },
-            {
-                "name": "Matt Prole",
-                "about": "Midweek distractor extraordairre",
-                "mixcloud_username": "DJ_Prole",
-                "styles": "Techno, Electro House and whatever his mood"
-            },
-            {
-                "name": "Loops",
-                "about": "",
-                "mixcloud_username": "Loops909",
-                "styles": ""
-            },
-            {
-                "name": "TnGnT",
-                "about": "",
-                "mixcloud_username": "jivetarget",
-                "styles": ""
-            },
-            {
-                "name": "Dj Phuze",
-                "about": "",
-                "mixcloud_username": "Phuze",
-                "styles": ""
-            },
-            {
-                "name": "FragenB",
-                "about": "",
-                "mixcloud_username": "roryburkill",
-                "styles": ""
-            },
-            {
-                "name": "LucasRay",
-                "about": "",
-                "mixcloud_username": "roastedbeets",
-                "styles": ""
-            },
-            {
-                "name": "McGarr",
-                "about": "Lover of music and art. Responsible for art on hatch webpage.",
-                "mixcloud_username": "mcgarr",
-                "styles": "Deep House, Dub Techno, Tech House, Melodic House, Tech House, Electronica"
-            },
-            {
-                "name": "Papadamour",
-                "about": "Ex Project Zero/Surreal (NZ) resident spinning global . Winner Reloop Mixtape Comp May 2022.",
-                "mixcloud_username": "Papadamour",
-                "styles": "House grooves, wonky disko, retro acid throwdowns and all kinds of oddities"
-            },
-            {
-                "name": "Si Macc",
-                "about": "An about thing here",
-                "mixcloud_username": "Si_Macc",
-                "styles": "Progressive grooves, blending the diversity of different genres to keep those legs moving all night"
-            }
+            {"name":"Martin Robinson","about":"Legendary DJ and producer","mixcloud_username":"Martin_Robinson","styles":"Tech House, Deep House, Minimal House, Drum & Bass"},
+            {"name":"Matt Prole","about":"Midweek distractor extraordairre","mixcloud_username":"DJ_Prole","styles":"Techno, Electro House and whatever his mood"},
+            {"name":"Loops","about":"","mixcloud_username":"Loops909","styles":""},
+            {"name":"TnGnT","about":"","mixcloud_username":"jivetarget","styles":""},
+            {"name":"Dj Phuze","about":"","mixcloud_username":"Phuze","styles":""},
+            {"name":"FragenB","about":"","mixcloud_username":"roryburkill","styles":""},
+            {"name":"LucasRay","about":"","mixcloud_username":"roastedbeets","styles":""},
+            {"name":"McGarr","about":"Lover of music and art. Responsible for art on hatch webpage.","mixcloud_username":"mcgarr","styles":"Deep House, Dub Techno, Tech House, Melodic House, Tech House, Electronica"},
+            {"name":"Papadamour","about":"Ex Project Zero/Surreal (NZ) resident spinning global . Winner Reloop Mixtape Comp May 2022.","mixcloud_username":"Papadamour","styles":"House grooves, wonky disko, retro acid throwdowns and all kinds of oddities"},
+            {"name":"Si Macc","about":"An about thing here","mixcloud_username":"Si_Macc","styles":"Progressive grooves, blending the diversity of different genres to keep those legs moving all night"}
         ],
-        "about": "<p><strong>About The Hatch</strong></p>
+        "about": `<p><strong>About The Hatch</strong></p>
 
 <p>
   The Hatch is an independent underground music platform built around a shared love of quality electronic music and genuine connection.
@@ -567,19 +477,20 @@
 
 <p>
   Whether you’re here to listen, share, or take your first steps behind the decks, The Hatch is open.
-</p>"
-    }
+</p>`
+    };
 
-    let startTime = Date.now()
-
+    let startTime = Date.now();
     const audio1 = document.getElementById("music");
 
-    let menu_open = false
-    let overlay_show = true
-    let current_level = 0
+    let menu_open = false;
+    let overlay_show = true;
+    let current_level = 0;
 
-    const playerInfoURL = "https://s1.citrus3.com:2000/AudioPlayer/TheHatch/playerInfo"
-    document.getElementById("TheHatchPlacerID").style.opacity = "100%"
+    const playerInfoURL = "https://s1.citrus3.com:2000/AudioPlayer/TheHatch/playerInfo";
+
+    // Fix: opacity should be numeric 0..1 (not "100%")
+    document.getElementById("TheHatchPlacerID").style.opacity = "1";
 
     async function fetchAsync (url) {
         let response = await fetch(url);
@@ -589,73 +500,60 @@
 
     function updateNowplaying() {
         fetchAsync(playerInfoURL).then(data => {
-            document.getElementById("NowPlaying").textContent = "Now Playing: " + data.nowplaying
-            document.getElementById("NowPlaying").style.padding = "3px"
-            document.getElementById("NextShow").style.padding = "3px"
-        })
+            document.getElementById("NowPlaying").textContent = "Now Playing: " + data.nowplaying;
+            document.getElementById("NowPlaying").style.padding = "3px";
+            document.getElementById("NextShow").style.padding = "3px";
+        });
     }
 
-    // Load upcoming shows from Google Sheets
-    const sheeturl = 'https://sheets.googleapis.com/v4/spreadsheets/1zRf--7vsXUQz3SMBrH5K2l6JQ0JD8Ta8byNADsOo5_k/values/Sheet1?alt=json&key=AIzaSyBCLWCpZG5lwHbj1u8DqnYkHaMSCJ66tTo'
+    const sheeturl = 'https://sheets.googleapis.com/v4/spreadsheets/1zRf--7vsXUQz3SMBrH5K2l6JQ0JD8Ta8byNADsOo5_k/values/Sheet1?alt=json&key=AIzaSyBCLWCpZG5lwHbj1u8DqnYkHaMSCJ66tTo';
     fetchAsync(sheeturl).then(data_toplevel => {
-        // convert Json response
-
-        let data = data_toplevel["values"]
-        data.shift()
+        let data = data_toplevel["values"];
+        data.shift();
         data = data.map((anitem) => {
-            return {"Event Description": anitem[0],
-                "Date": anitem[1],
-                "Time": anitem[2]
-            }
-        })
+            return {"Event Description": anitem[0], "Date": anitem[1], "Time": anitem[2]};
+        });
 
-        // Helper function to convert text to date
-        // this converts it relevant to the timezone
         function convertTextToDate(aText, aTimeText) {
-            let ampm = aTimeText.slice(-2)
-            let hour = aTimeText.replace('pm','').split("-")[0]
-            hour = parseInt(hour)
+            let ampm = aTimeText.slice(-2);
+            let hour = aTimeText.replace('pm','').split("-")[0];
+            hour = parseInt(hour, 10);
+
             if (ampm === 'pm') {
-                hour = hour + 12
+                hour = hour + 12;
             } else {
-                if (hour === 12) {
-                    hour = 0
-                }
-                if (hour === 11) {
-                    hour = hour + 12
-                }
+                if (hour === 12) hour = 0;
+                if (hour === 11) hour = hour + 12;
             }
-            let parts = aText.split('/')
-            let nonadjustedate = new Date(parts[2], parts[1] - 1, parts[0], hour)
-            const timezoneoffet = nonadjustedate.getTimezoneOffset()
+
+            let parts = aText.split('/');
+            let nonadjustedate = new Date(parts[2], parts[1] - 1, parts[0], hour);
+            const timezoneoffet = nonadjustedate.getTimezoneOffset();
             let adjusteddate = new Date(nonadjustedate.getTime() + timezoneoffet*60000*-1);
-            return adjusteddate
+            return adjusteddate;
         }
 
-        // Sort the shows by date
-        function compare( a, b ) {
-            let adate = convertTextToDate(a["Date"], a["Time"])
-            let bdate = convertTextToDate(b["Date"], b["Time"])
-            if ( adate < bdate ){
-                return -1;
-            }
-            if ( adate > bdate ){
-                return 1;
-            }
+        function compare(a, b) {
+            let adate = convertTextToDate(a["Date"], a["Time"]);
+            let bdate = convertTextToDate(b["Date"], b["Time"]);
+            if (adate < bdate) return -1;
+            if (adate > bdate) return 1;
             return 0;
         }
 
         function add_event_text(some_text) {
-            let aEvent_div = document.createElement("DIV")
+            let aEvent_div = document.createElement("DIV");
             aEvent_div.classList.add("DJContainer");
-            eventlist.appendChild(aEvent_div)
-            let inner_event = document.createElement("DIV")
+            eventlist.appendChild(aEvent_div);
+
+            let inner_event = document.createElement("DIV");
             inner_event.classList.add("EventItem");
-            aEvent_div.appendChild(inner_event)
-            inner_event.innerText = some_text
-            let apadder = document.createElement("DIV")
-            apadder.classList.add("DJPadder")
-            aEvent_div.appendChild(apadder)
+            aEvent_div.appendChild(inner_event);
+            inner_event.innerText = some_text;
+
+            let apadder = document.createElement("DIV");
+            apadder.classList.add("DJPadder");
+            aEvent_div.appendChild(apadder);
         }
 
         const nth = function(d) {
@@ -666,190 +564,155 @@
                 case 3:  return "rd";
                 default: return "th";
             }
-        }
+        };
 
-        add_event_text("ALL SET TIMES ARE GMT")
-        data.sort( compare );
+        add_event_text("ALL SET TIMES ARE GMT");
+        data.sort(compare);
 
+        let closestdays = 24 * 60 * 60 * 1000 * 1000;
+        let closestEventText = "";
+        let currentDate = new Date();
 
-        let d = new Date()
-
-        let closestdays = 24 * 60 * 60 * 1000 * 1000
-        let closestEventText = ""
-        let currentDate = new Date()
         data.forEach(aEvent => {
-            let thisdate = convertTextToDate(aEvent["Date"], aEvent["Time"])
-            let milliSecondsDifferent = (thisdate - currentDate) / (60 * 60 * 1000)
-            let dayofmonth = thisdate.getDate()
-            let suffix = nth(dayofmonth)
-            // let monthName = thisdate.toLocaleString('en-US', {month: 'short'});
+            let thisdate = convertTextToDate(aEvent["Date"], aEvent["Time"]);
+            let milliSecondsDifferent = (thisdate - currentDate) / (60 * 60 * 1000);
+            let dayofmonth = thisdate.getDate();
+            let suffix = nth(dayofmonth);
             let dayOfWeekName = thisdate.toLocaleString('en-US', {weekday: 'short'});
-            let dateString = dayOfWeekName + " " + dayofmonth + suffix
+            let dateString = dayOfWeekName + " " + dayofmonth + suffix;
+
             if (milliSecondsDifferent >= 0 ) {
                 if (milliSecondsDifferent < closestdays) {
-                    closestdays = milliSecondsDifferent
-
-                    closestEventText = "Next Live Show - " + dateString + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"]
+                    closestdays = milliSecondsDifferent;
+                    closestEventText = "Next Live Show - " + dateString + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"];
                 }
-                add_event_text(dateString + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"])
-            }})
+                add_event_text(dateString + " " + aEvent["Time"] + ' - ' + aEvent["Event Description"]);
+            }
+        });
+
         const nextShow = document.getElementById("NextShow");
-        nextShow.innerText = closestEventText
-    })
+        nextShow.innerText = closestEventText;
+    });
 
     updateNowplaying();
-
-    setInterval(function() {updateNowplaying()}, 30000)
-
-    function createIFrame(aname) {
-        let ifrm = document.createElement("iframe");
-        let URL = "https://www.mixcloud.com/widget/follow/?u=%2F" + aname + "%2F"
-        ifrm.setAttribute("src", URL);
-        ifrm.style.width = "300px";
-        ifrm.style.height = "250px";
-        return ifrm
-    }
+    setInterval(function() { updateNowplaying(); }, 30000);
 
     function OpenChatroom() {
-        let URL = "https://organizations.minnit.chat/633661426848324/Main"
+        let URL = "https://organizations.minnit.chat/633661426848324/Main";
         window.open(URL, '_blank');
     }
-    document.getElementById("ChatroomText").onclick = OpenChatroom
+    document.getElementById("ChatroomText").onclick = OpenChatroom;
 
-    // Load in text
-    document.getElementById("AboutText").innerHTML = appdata["about"]
-    djlist = document.getElementById("DJList")
+    document.getElementById("AboutText").innerHTML = appdata["about"];
+
+    djlist = document.getElementById("DJList");
     appdata["djs"].forEach(adj => {
-        let adj_div = document.createElement("DIV")
+        let adj_div = document.createElement("DIV");
         adj_div.classList.add("DJContainer");
-        djlist.appendChild(adj_div)
-        let mixcloudapi = "https://api.mixcloud.com/" + adj["mixcloud_username"] + "/"
+        djlist.appendChild(adj_div);
+
+        let mixcloudapi = "https://api.mixcloud.com/" + adj["mixcloud_username"] + "/";
         fetchAsync(mixcloudapi).then(data => {
             let img = document.createElement('img');
-            img.src =data.pictures.extra_large
-            img.classList.add("djImage")
-            // img.onclick =
-            img.id = "DjImage" + adj["mixcloud_username"]
-            img.alt = adj["mixcloud_username"]
-            adj_div.appendChild(img)
-            let DJName = document.createElement("DIV")
-            DJName.classList.add("DJName")
-            DJName.innerHTML = adj["name"]
-            adj_div.appendChild(DJName)
-            //let DJAbout = document.createElement("DIV")
-            //DJAbout.classList.add("DJAboutInfo")
-            //DJAbout.innerHTML = adj["about"]
-            //adj_div.appendChild(DJAbout)
-            let DJStyles = document.createElement("DIV")
-            DJStyles.classList.add("DJStyles")
-            DJStyles.innerHTML = adj["styles"]
-            adj_div.appendChild(DJStyles)
+            img.src = data.pictures.extra_large;
+            img.classList.add("djImage");
+            img.id = "DjImage" + adj["mixcloud_username"];
+            img.alt = adj["mixcloud_username"];
+            adj_div.appendChild(img);
+
+            let DJName = document.createElement("DIV");
+            DJName.classList.add("DJName");
+            DJName.innerHTML = adj["name"];
+            adj_div.appendChild(DJName);
+
+            let DJStyles = document.createElement("DIV");
+            DJStyles.classList.add("DJStyles");
+            DJStyles.innerHTML = adj["styles"];
+            adj_div.appendChild(DJStyles);
+
             let a = document.createElement('a');
-            let linkText = document.createTextNode("Click Here For Mixcloud Profile");
-            a.appendChild(linkText);
+            a.appendChild(document.createTextNode("Click Here For Mixcloud Profile"));
             a.title = "Mixcloud Profile";
             a.href = "https://www.mixcloud.com/" + adj['mixcloud_username'] + "/";
-            a.classList.add("DJLink")
+            a.classList.add("DJLink");
             adj_div.appendChild(a);
-            let apadder = document.createElement("DIV")
-            apadder.classList.add("DJPadder")
-            adj_div.appendChild(apadder)})
 
-    })
-    eventlist = document.getElementById("EventList")
+            let apadder = document.createElement("DIV");
+            apadder.classList.add("DJPadder");
+            adj_div.appendChild(apadder);
+        });
+    });
 
+    eventlist = document.getElementById("EventList");
 
-
-    document.getElementById("NowPlaying").style.width ="fit-content";
+    document.getElementById("NowPlaying").style.width = "fit-content";
     document.getElementById("NextShow").style.width = "fit-content";
     document.getElementById("glassMenu").style.width = (window.innerWidth * 0.85) + "px";
     document.getElementById("NowPlaying").style.visibility = "visible";
     document.getElementById("NextShow").style.visibility = "visible";
     document.getElementById("ArrowID").style.visibility = "visible";
-    // document.getElementById("TheHatchPlacerID").style.display = "none"
-    // document.getElementById("TheHatchPlacerID").style.zIndex = "none"
-    document.getElementById("ThreeLines").style.left = ((window.innerWidth / 2) - (window.innerWidth / 2)) + "px";
-    document.getElementById("ThreeLines").style.display = "block"
 
-    let square = "M 24.186308,1.7697298 H 2.1236758 L 2.0450212,24.343617 24.186308,24.146981 Z"
-    let pSymbol = document.getElementById("playerSymbol")
-    let triangle = pSymbol.getAttribute("d")
+    document.getElementById("ThreeLines").style.left = "0px";
+    document.getElementById("ThreeLines").style.display = "block";
 
-    const isPlaying = (audElem) => {
-        return !audElem.paused;
-    };
+    let square = "M 24.186308,1.7697298 H 2.1236758 L 2.0450212,24.343617 24.186308,24.146981 Z";
+    let pSymbol = document.getElementById("playerSymbol");
+    let triangle = pSymbol.getAttribute("d");
 
-    document.getElementById("AboutButton").onclick = function() { showMenuPage("AboutID")}
-    document.getElementById("DJListButton").onclick= function() { showMenuPage("DJList")}
-    document.getElementById("UpcomingButton").onclick = function() { showMenuPage("EventList")}
+    const isPlaying = (audElem) => !audElem.paused;
+
+    document.getElementById("AboutButton").onclick = function() { showMenuPage("AboutID"); };
+    document.getElementById("DJListButton").onclick = function() { showMenuPage("DJList"); };
+    document.getElementById("UpcomingButton").onclick = function() { showMenuPage("EventList"); };
+
     document.getElementById("BackArrowID").onclick = function() {
-        if (current_level === 2) {
-            showMenuPage("MenuPageID")
-        } else
-        {
-            menu_clicked()
-        }
-    }
+        if (current_level === 2) showMenuPage("MenuPageID");
+        else menu_clicked();
+    };
 
     function switch_overlay() {
         let collection = document.getElementsByClassName("Overlay");
-        overlay_show = !overlay_show
-        let visibility_text = ""
-        if (overlay_show) {
-            visibility_text = "visible"
-        } else {
-            visibility_text = "hidden"
-        }
-        [...collection].forEach((item) => {
-            item.style.visibility = visibility_text
-        })
-        document.getElementById("ArrowID").style.visibility = visibility_text
+        overlay_show = !overlay_show;
+        let visibility_text = overlay_show ? "visible" : "hidden";
+        [...collection].forEach((item) => { item.style.visibility = visibility_text; });
+        document.getElementById("ArrowID").style.visibility = visibility_text;
     }
 
-    function play1(){
+    function play1() {
         if (isPlaying(audio1)) {
             audio1.pause();
-            pSymbol.setAttribute("d", triangle)
-        } else
-        {
-            audio1.play()
-            pSymbol.setAttribute("d", square)
+            pSymbol.setAttribute("d", triangle);
+        } else {
+            audio1.play();
+            pSymbol.setAttribute("d", square);
         }
     }
 
     function showMenuPage(aPage) {
-        if (aPage) {
-            current_level = 2
-        }
-        if (aPage === "MenuPageID") {
-            current_level = 1
-        }
-        document.getElementById("MenuPageID").style.display = "none"
-        document.getElementById("AboutID").style.display = "none"
-        document.getElementById("DJList").style.display = "none"
-        document.getElementById("EventList").style.display = "none"
-        if (aPage) {
-            document.getElementById(aPage).style.display = "flex"
-        }
+        if (aPage) current_level = 2;
+        if (aPage === "MenuPageID") current_level = 1;
+
+        document.getElementById("MenuPageID").style.display = "none";
+        document.getElementById("AboutID").style.display = "none";
+        document.getElementById("DJList").style.display = "none";
+        document.getElementById("EventList").style.display = "none";
+
+        if (aPage) document.getElementById(aPage).style.display = "flex";
     }
 
-    function menu_clicked(){
-        switch_overlay()
+    function menu_clicked() {
+        switch_overlay();
+        let gMenu = document.getElementById("glassMenu");
+
         if (menu_open) {
-            let gMenu = document.getElementById("glassMenu")
-            gMenu.style.display = "none"
-            current_level = 0
-        } else
-        {
-            let gMenu = document.getElementById("glassMenu")
-            gMenu.style.display = "flex"
-            showMenuPage("MenuPageID")
+            gMenu.style.display = "none";
+            current_level = 0;
+        } else {
+            gMenu.style.display = "flex";
+            showMenuPage("MenuPageID");
         }
-        menu_open = !menu_open
+        menu_open = !menu_open;
     }
-
-
-
 </script>
 </body>
 </html>
